@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>372390918489-ejj2kebb9l2e1j5eov1qj3t9ljhle5ic.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.372390918489-ejj2kebb9l2e1j5eov1qj3t9ljhle5ic</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDlvV9nAZTXxPUZbSIQ5RG99i3utHO79ho</string>
+	<key>GCM_SENDER_ID</key>
+	<string>372390918489</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.royhayek.flutterfoodrecipes</string>
+	<key>PROJECT_ID</key>
+	<string>flutter-foodrecipes</string>
+	<key>STORAGE_BUCKET</key>
+	<string>flutter-foodrecipes.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:372390918489:ios:c534890ff3f3d008f33448</string>
+</dict>
+</plist>

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "372390918489",
+    "project_id": "flutter-foodrecipes",
+    "storage_bucket": "flutter-foodrecipes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:372390918489:android:e92af36b3e3fe3f4f33448",
+        "android_client_info": {
+          "package_name": "com.royhayek.flutterfoodrecipes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "372390918489-nt54ta5v6sn9epealf8u7mhntaqkouls.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZ_cX7IgFR5e5GGyV87vkILzkhKyA4Ykk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "372390918489-nt54ta5v6sn9epealf8u7mhntaqkouls.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "372390918489-ejj2kebb9l2e1j5eov1qj3t9ljhle5ic.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.royhayek.flutterfoodrecipes"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
