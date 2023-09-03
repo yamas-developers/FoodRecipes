@@ -386,6 +386,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+
   _buildRecentRecipesList() {
     return Consumer<RecipeProvider>(
       builder: (context, recipe, child) {
