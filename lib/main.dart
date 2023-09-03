@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> {
             locale: context.locale,
             supportedLocales: context.supportedLocales,
             localizationsDelegates: context.localizationDelegates,
-            theme: theme(),
+            theme: appState.theme,
             initialRoute: SplashScreen.routeName,
             routes: routes,
           ),

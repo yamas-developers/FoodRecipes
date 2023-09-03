@@ -6,6 +6,7 @@ enum ShimmerType {
   Carousel,
   Recipes,
   Categories,
+  HorizontalCategories,
   ProfileRecipes,
   Users,
   Cookbook
@@ -27,6 +28,8 @@ class ShimmerLoading extends StatelessWidget {
         return _buildRecipesShimmer();
       case ShimmerType.Categories:
         return _buildCategoriesShimmer();
+      case ShimmerType.HorizontalCategories:
+        return _buildHorizCatsShimmer();
       case ShimmerType.ProfileRecipes:
         return _buildProfileRecipeShimmer(context, crossAxisCount!);
       case ShimmerType.Users:
@@ -45,6 +48,51 @@ class ShimmerLoading extends StatelessWidget {
         baseColor: (Colors.grey[300])!,
         highlightColor: (Colors.grey[100])!,
         child: _container(double.infinity, 180, radius: 15),
+      ),
+    );
+  }
+
+  _buildHorizCatsShimmer() {
+    return Container(
+      height: 130,
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      margin: EdgeInsets.only(top: 14),
+      child: Shimmer.fromColors(
+        baseColor: (Colors.grey[300])!,
+        highlightColor: (Colors.grey[100])!,
+        child: ListView.builder(
+            itemCount: 10,
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.grey),
+                ),
+                margin: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                constraints: BoxConstraints(minWidth: 88),
+                child: Column(
+                  children: [
+                    _container(
+                      50,
+                      50,
+                      radius: 100,
+                      margin: EdgeInsets.only(top: 10, bottom: 14),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    _container(
+                      50,
+                      15,
+                      margin: EdgeInsets.symmetric(horizontal: 5),
+                    ),
+                  ],
+                ),
+              );
+            }),
       ),
     );
   }
@@ -113,14 +161,13 @@ class ShimmerLoading extends StatelessWidget {
           padding: const EdgeInsets.all(15),
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200,
-            childAspectRatio: 3 / 2,
-            crossAxisSpacing: 15,
-            mainAxisSpacing: 15,
-          ),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: 0.72,
+              crossAxisCount: 3,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10),
           itemBuilder: (context, index) {
-            return _container(200, 80);
+            return _container(200, 80, radius: 10);
           }),
     );
   }

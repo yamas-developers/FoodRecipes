@@ -57,6 +57,7 @@ class RecipeProvider extends ChangeNotifier {
       if (refresh) _recentRecipes.clear();
       _recentRecipes.addAll(categoryPage.data!);
       _recentStatus = RecentRecipeStatus.Done;
+      print('MK: recent recipes:  ${response.body}');
       notifyListeners();
     } catch (e) {
       print(e);

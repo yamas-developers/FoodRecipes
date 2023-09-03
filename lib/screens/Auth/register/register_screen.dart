@@ -17,6 +17,8 @@ import 'package:image/image.dart' as Img;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../../../utils/utils.dart';
+
 class RegisterScreen extends StatefulWidget {
   static const routeName = '/register';
 
@@ -101,7 +103,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildBackButton(),
+              SizedBox(
+                height: 20,
+              ),
+              buildBackButton(context),
               _buildImageCard(),
               _buildRegistrationFields(queryData),
             ],
@@ -118,20 +123,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         width: double.infinity,
         height: double.infinity,
         fit: BoxFit.cover,
-      ),
-    );
-  }
-
-  _buildBackButton() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 40, 15, 0),
-      child: GestureDetector(
-        onTap: () => Navigator.pop(context),
-        child: CircleAvatar(
-          radius: 18,
-          backgroundColor: Colors.white,
-          child: Icon(Icons.keyboard_backspace, color: Colors.black, size: 30),
-        ),
       ),
     );
   }
@@ -196,14 +187,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     icon: Icon(Icons.portrait,
                         color: Theme.of(context).primaryColor),
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 10),
                   CustomTextField(
                     text: 'email'.tr(),
                     controller: _emailController,
                     icon: Icon(Icons.mail_outline_rounded,
                         color: Theme.of(context).primaryColor),
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 10),
                   CustomTextField(
                     obscure: true,
                     text: 'password'.tr(),
@@ -211,7 +202,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     icon: Icon(Icons.lock_open,
                         color: Theme.of(context).primaryColor),
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 10),
                   CustomTextField(
                     obscure: true,
                     text: 'confirm_password'.tr(),
@@ -219,7 +210,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     icon: Icon(Icons.lock_outline,
                         color: Theme.of(context).primaryColor),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 15),
                 ],
               ),
             ),

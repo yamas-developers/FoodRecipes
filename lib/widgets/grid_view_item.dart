@@ -36,13 +36,24 @@ class GridViewItem extends StatelessWidget {
       onTap: () => selectCategory(context),
       splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(15),
-      child: Card(
-        elevation: 2,
-        margin: const EdgeInsets.all(0),
-        child: Stack(
+      child: Container(
+        margin: EdgeInsets.only(right: 7),
+        decoration: BoxDecoration(
+            border: Border.all(color: Theme.of(context).highlightColor),
+            borderRadius: BorderRadius.circular(10),
+            color: Theme.of(context).scaffoldBackgroundColor),
+        padding: EdgeInsets.only(bottom: 10, top: 5),
+        child: Column(
           children: <Widget>[
+            Spacer(
+              flex: 2,
+            ),
             _buildCategoryImage(),
+            Spacer(
+              flex: 2,
+            ),
             _buildCategoryName(context),
+            Spacer(),
           ],
         ),
       ),
@@ -50,30 +61,43 @@ class GridViewItem extends StatelessWidget {
   }
 
   _buildCategoryImage() {
-    return CachedNetworkImage(
-      imageUrl: category != null
-          ? '$path${category?.image}'
-          : '$path${cuisine?.image}',
-      placeholder: (context, url) => ShimmerWidget(
-        width: 200,
-        height: double.infinity,
-        circular: false,
+    return ClipOval(
+      child: CachedNetworkImage(
+        imageUrl: category != null
+            ? '$path${category?.image}'
+            : '$path${cuisine?.image}',
+        placeholder: (context, url) => ShimmerWidget(
+          width: 80,
+          height: 80,
+          circular: false,
+        ),
+        width: 70,
+        height: 70,
+        fit: BoxFit.cover,
       ),
-      width: double.infinity,
-      height: double.infinity,
-      fit: BoxFit.cover,
     );
   }
 
   _buildCategoryName(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(color: Colors.black12),
-      alignment: AlignmentDirectional.bottomStart,
-      padding: EdgeInsets.all(8),
-      child: Text(
-        category != null ? '${category?.name}' : '${cuisine?.name}',
-        style: Theme.of(context).textTheme.headline4,
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Text(
+              category != null ? '${category?.name}' : '${cuisine?.name}',
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(fontSize: 16, fontWeight: FontWeight.normal),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

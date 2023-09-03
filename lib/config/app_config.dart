@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../Theme/style.dart';
+
 class AppConfig {
+
   ////////////////////////////////////////
   //       SERVER CONFIGURATION         //
   ////////////////////////////////////////

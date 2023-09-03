@@ -23,6 +23,7 @@ import 'package:launch_review/launch_review.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../Auth/intro_screen.dart';
 import 'languages/languages_screen.dart';
 
 final BaseCacheManager baseCacheManager = DefaultCacheManager();
@@ -232,7 +233,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       : await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LoginScreen(),
+                            builder: (context) => IntroScreen(),
                           ),
                         ),
                   child: auth.user != null

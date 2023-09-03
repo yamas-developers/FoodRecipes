@@ -21,9 +21,16 @@ class SearchTextfield extends StatelessWidget {
       height: 52,
       margin: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
-        borderRadius: BorderRadius.circular(15),
-      ),
+          color: Theme.of(context).shadowColor,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.15),
+              spreadRadius: 1,
+              blurRadius: 3,
+              offset: Offset(0, 3),
+            )
+          ]),
       child: Center(
         child: TextFormField(
           controller: controller,
@@ -31,6 +38,8 @@ class SearchTextfield extends StatelessWidget {
           onFieldSubmitted: (_) => suffixIconOnTap!(),
           onChanged: (value) => onChanged!(),
           decoration: InputDecoration(
+            // fillColor: Theme.of(context).shadowColor,
+            // filled: true,
             border: InputBorder.none,
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none,

@@ -156,3 +156,28 @@ Future showCustomDialogWithTitle(
     },
   );
 }
+
+buildBackButton(context) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(15, 40, 15, 0),
+    child: GestureDetector(
+      onTap: () => Navigator.pop(context),
+      child: CircleAvatar(
+        radius: 18,
+        backgroundColor: Colors.white,
+        child: Icon(Icons.keyboard_backspace, color: Colors.black, size: 30),
+      ),
+    ),
+  );
+}
+
+String getGreeting() {
+  var hour = DateTime.now().hour;
+  if (hour < 12) {
+    return 'good_morning'.tr();
+  } else if (hour < 17) {
+    return 'good_afternoon'.tr();
+  } else {
+    return 'good_evening'.tr();
+  }
+}

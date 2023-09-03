@@ -5,20 +5,39 @@ import 'package:food_recipes_app/models/settings.dart';
 import 'package:food_recipes_app/services/api_repository.dart';
 import 'package:http/http.dart' as http;
 
+import '../Theme/style.dart';
+
 class AppProvider extends ChangeNotifier {
   Settings? _settings;
   List<Difficulty> _difficulties = [];
   List<Language> _languages = [];
   int _recipeClickCount = 0;
+  ThemeData _theme = appTheme;
 
   Settings? get settings => _settings;
+
   List<Difficulty> get difficulties => _difficulties;
+
   List<Language> get languages => _languages;
+
   int get recipeClickCount => _recipeClickCount;
+
+  ThemeData get theme => _theme;
+
+  set theme(ThemeData value) {
+    _theme = value;
+    notifyListeners();
+  }
+
+  void setTheme(bool isDark) async {
+    ThemeData theme = isDark ? darkTheme : appTheme;
+    _theme = theme;
+    notifyListeners();
+  }
 
   Future fetchSettings() async {
     http.Response? response = await ApiRepository.fetchSettings();
-    print(response?.body);
+    print('MK: settings:  ${response?.body}');
     _settings = settingsFromJson(response!.body);
     notifyListeners();
   }

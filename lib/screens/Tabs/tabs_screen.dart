@@ -57,15 +57,15 @@ class _TabsScreenState extends State<TabsScreen> {
           ),
           label: 'Categories',
         ),
-        BottomNavigationBarItem(
-          icon: Image.asset('assets/images/ic_add.png', scale: 2.2),
-          activeIcon: Image.asset(
-            'assets/images/ic_add.png',
-            scale: 2.2,
-            color: Theme.of(context).primaryColor,
-          ),
-          label: 'Add Recipe',
-        ),
+        // BottomNavigationBarItem(
+        //   icon: Image.asset('assets/images/ic_add.png', scale: 2.2),
+        //   activeIcon: Image.asset(
+        //     'assets/images/ic_add.png',
+        //     scale: 2.2,
+        //     color: Theme.of(context).primaryColor,
+        //   ),
+        //   label: 'Add Recipe',
+        // ),
         BottomNavigationBarItem(
           icon: Image.asset('assets/images/ic_country.png', scale: 2.2),
           activeIcon: Image.asset(
@@ -93,7 +93,7 @@ class _TabsScreenState extends State<TabsScreen> {
     _pages = [
       {'page': HomeScreen()},
       {'page': CategoriesScreen()},
-      {'page': AddRecipeScreen()},
+      // {'page': AddRecipeScreen()},
       {'page': CuisineScreen()},
       {'page': SettingsScreen()},
     ];

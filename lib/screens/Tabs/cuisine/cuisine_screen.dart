@@ -111,12 +111,17 @@ class _CuisineScreenState extends State<CuisineScreen> {
                               path: ApiRepository.CUISINE_IMAGES_PATH,
                             ))
                         .toList(),
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 200,
-                      childAspectRatio: 3 / 2,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                    ),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 0.72,
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10),
+                    // gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    //   maxCrossAxisExtent: 200,
+                    //   childAspectRatio: 3 / 2,
+                    //   crossAxisSpacing: 15,
+                    //   mainAxisSpacing: 15,
+                    // ),
                   ),
                 )
               : Center(

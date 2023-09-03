@@ -17,6 +17,8 @@ import 'package:food_recipes_app/utils/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../intro_screen.dart';
+
 FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
 class SplashScreen extends StatefulWidget {
@@ -39,9 +41,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
     application = Provider.of<AppProvider>(context, listen: false);
 
-    Future.delayed(Duration(seconds: 1), () {
-      _checkWifi();
-    });
+    try {
+      Future.delayed(Duration(seconds: 1), () {
+        _checkWifi();
+      });
+    } catch (e) {
+      print('MK: error $e');
+    }
   }
 
   _checkWifi() async {
@@ -158,6 +164,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _body() {
-    return _isRetrieving ? _loadingLayout(context) : TabsScreen();
+    return _isRetrieving ? _loadingLayout(context) : IntroScreen();
   }
 }
