@@ -46,7 +46,7 @@ Widget swipeToRefresh(context,
   return SmartRefresher(
     enablePullDown: true,
     enablePullUp: true,
-    header: MaterialClassicHeader(),
+    header: MaterialClassicHeader(color: primaryColor),
     controller: refreshController,
     onRefresh: onRefresh,
     onLoading: onLoading,
