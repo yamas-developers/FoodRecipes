@@ -10,6 +10,8 @@ import 'package:food_recipes_app/services/api_repository.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../utils/utils.dart';
+
 class DeleteAccountScreen extends StatefulWidget {
   final String? information;
 
@@ -40,12 +42,13 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
     return AppBar(
       elevation: 0,
       systemOverlayStyle: SystemUiOverlayStyle.light,
-      iconTheme: IconThemeData(color: Colors.black),
+      // iconTheme: IconThemeData(color: Colors.black),
+      leading: buildSimpleBackArrow(context),
       backgroundColor: Colors.transparent,
       centerTitle: true,
       title: Text(
         'delete_account'.tr(),
-        style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
+        // style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
       ),
     );
   }
@@ -58,7 +61,9 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
         children: [
           Text(
             'account_deletion_confirmation'.tr(),
-            style: TextStyle(fontSize: 16, height: 1.8, fontFamily: 'Brandon'),
+            style: TextStyle(fontSize: 16, height: 1.8,
+                // fontFamily: 'Brandon'
+            ),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 3),

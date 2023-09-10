@@ -11,6 +11,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import '../../../Theme/colors.dart';
+import '../../../utils/utils.dart';
 
 class CuisineScreen extends StatefulWidget {
   static const routeName = '/categories';
@@ -80,10 +81,11 @@ class _CuisineScreenState extends State<CuisineScreen> {
       backgroundColor: Colors.transparent,
       automaticallyImplyLeading: false,
       elevation: 0.0,
-      iconTheme: IconThemeData(color: Colors.black),
+      // iconTheme: IconThemeData(color: Colors.black),
+      leading: buildSimpleBackArrow(context),
       title: Text(
         'cuisines'.tr(),
-        style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
+        style: TextStyle(/*color: Colors.black, */fontFamily: 'Brandon'),
       ),
     );
   }
@@ -131,7 +133,10 @@ class _CuisineScreenState extends State<CuisineScreen> {
               : Center(
                   child: Text(
                     'no_cuisine_found'.tr(),
-                    style: GoogleFonts.pacifico(fontSize: 16),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .copyWith(fontSize: 16),
                   ),
                 );
         }

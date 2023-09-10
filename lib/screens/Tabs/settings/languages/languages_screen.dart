@@ -8,6 +8,8 @@ import 'package:food_recipes_app/providers/recipe_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../utils/utils.dart';
+
 class LanguagesScreen extends StatefulWidget {
   @override
   _LanguagesScreenState createState() => _LanguagesScreenState();
@@ -24,15 +26,16 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
 
   _appBar() {
     return AppBar(
-      elevation: 0,
-      systemOverlayStyle: SystemUiOverlayStyle.light,
-      backgroundColor: Colors.white,
+      // elevation: 0,
+      // systemOverlayStyle: SystemUiOverlayStyle.light,
+      // backgroundColor: Colors.transparent,
       centerTitle: true,
       title: Text(
         'languages'.tr(),
-        style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
+        // style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
       ),
-      iconTheme: IconThemeData(color: Colors.black),
+      // iconTheme: IconThemeData(color: Colors.black),
+      leading: buildSimpleBackArrow(context),
     );
   }
 
@@ -70,6 +73,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
               onTap: () {
                 context.setLocale(Locale('en', 'US'));
                 _emptyLists();
+                setState(() {});
               },
             ),
             _buildLanguageListItem(
@@ -78,6 +82,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
               onTap: () {
                 context.setLocale(Locale('fr', 'FR'));
                 _emptyLists();
+                setState(() {});
               },
             ),
             _buildLanguageListItem(

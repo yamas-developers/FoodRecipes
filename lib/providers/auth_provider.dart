@@ -139,10 +139,10 @@ class AuthProvider extends ChangeNotifier {
         body: TextField(
           controller: _registerEmailController,
           style: TextStyle(
-              color: Colors.black, fontFamily: 'Raleway', fontSize: 17),
+              fontSize: 17),
           decoration: InputDecoration(
             labelText: 'email'.tr(),
-            labelStyle: TextStyle(fontSize: 13, fontFamily: 'Raleway'),
+            labelStyle: TextStyle(fontSize: 13,),
           ),
         ), onTapSubmit: () async {
       if (_registerEmailController.text.isNotEmpty) {

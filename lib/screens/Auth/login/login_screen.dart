@@ -131,7 +131,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   'welocme_back'.tr(),
                   minFontSize: 13,
                   style: TextStyle(
-                      color: Colors.black,
                       fontWeight: FontWeight.w600,
                       fontSize: 22),
                 ),
@@ -161,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: AutoSizeText(
                       'forgot_password'.tr(),
                       minFontSize: 13,
-                      style: TextStyle(color: Colors.black, fontSize: 14),
+                      style: TextStyle(fontSize: 14),
                     ),
                   ),
                 ),
@@ -198,14 +197,14 @@ class _LoginScreenState extends State<LoginScreen> {
           AutoSizeText(
             'don\'t_have_an_account'.tr(),
             minFontSize: 13,
-            style: TextStyle(color: Colors.black, fontSize: 15),
+            style: TextStyle( fontSize: 15),
           ),
           SizedBox(width: 4),
           AutoSizeText(
             'sign_up_now'.tr(),
             minFontSize: 13,
             style: TextStyle(
-                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 15),
+                fontWeight: FontWeight.bold, fontSize: 15),
           ),
         ],
       ),
@@ -320,7 +319,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.pop(context);
                 });
               },
-              child: Text('reset'.tr(), style: TextStyle(color: Colors.white)),
+              child: Text('reset'.tr(),),
             ),
           ],
         ),

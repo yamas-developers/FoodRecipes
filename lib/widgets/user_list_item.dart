@@ -88,7 +88,7 @@ class UserListItem extends StatelessWidget {
     return Text(
       user.name!,
       style: TextStyle(
-        color: Colors.black,
+        // color: Colors.black,
         fontWeight: FontWeight.bold,
         fontSize: 15,
       ),

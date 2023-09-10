@@ -108,6 +108,9 @@ class _IntroScreenState extends State<IntroScreen> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
       children: [
+        SizedBox(
+          height: 10,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -130,16 +133,15 @@ class _IntroScreenState extends State<IntroScreen> {
           // padding: EdgeInsets.symmetric(horizontal: queryData.size.width / 8),
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           decoration: BoxDecoration(
-              color: Colors.red,
               gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [0.0, 0.1],
-                colors: [
-                  Theme.of(context).backgroundColor.withOpacity(0.1),
-                  Theme.of(context).backgroundColor,
-                ],
-              )),
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0.0, 0.1],
+            colors: [
+              Theme.of(context).scaffoldBackgroundColor.withOpacity(0.1),
+              Theme.of(context).scaffoldBackgroundColor,
+            ],
+          )),
           child: Column(
             children: [
               SizedBox(height: 20),
@@ -168,8 +170,7 @@ class _IntroScreenState extends State<IntroScreen> {
           AutoSizeText(
             'get_started'.tr(),
             minFontSize: 13,
-            style: TextStyle(
-                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 22),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
           ),
         ],
       ),
@@ -387,7 +388,7 @@ class RoundedBorderButton extends StatelessWidget {
           style: TextStyle(color: Theme.of(context).primaryColor),
         ),
         style: TextButton.styleFrom(
-          backgroundColor: Colors.white,
+          // backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             side: BorderSide(
               width: 1,

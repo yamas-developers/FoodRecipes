@@ -124,7 +124,7 @@ class _HomeRecipeItemState extends State<HomeRecipeItem> {
         style: TextStyle(
           color: Theme.of(context).primaryColor,
           fontSize: 12,
-          fontFamily: 'Brandon',
+          // fontFamily: 'Brandon',
           fontWeight: FontWeight.normal,
         ),
       ),
@@ -138,9 +138,9 @@ class _HomeRecipeItemState extends State<HomeRecipeItem> {
         widget.recipe.name!,
         maxLines: 2,
         style: TextStyle(
-          fontFamily: 'Brandon',
+          // fontFamily: 'Brandon',
           fontSize: 17,
-          color: Colors.black.withOpacity(0.7),
+          color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.7),
         ),
         softWrap: true,
         overflow: TextOverflow.ellipsis,
@@ -177,7 +177,7 @@ class _HomeRecipeItemState extends State<HomeRecipeItem> {
             (widget.recipe.user!.name)!,
             style: TextStyle(
               fontSize: 15,
-              fontFamily: 'Brandon',
+              // fontFamily: 'Brandon',
               fontWeight: FontWeight.normal,
               color: Theme.of(context).primaryColor,
             ),

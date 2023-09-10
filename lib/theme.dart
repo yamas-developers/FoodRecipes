@@ -63,6 +63,6 @@ AppBarTheme appBarTheme() {
     elevation: 0,
     systemOverlayStyle: SystemUiOverlayStyle.light,
     iconTheme: IconThemeData(color: Colors.black),
-    toolbarTextStyle: TextStyle(color: Colors.black, fontSize: 18),
+    toolbarTextStyle: TextStyle(/*color: Colors.black,*/ fontSize: 18),
   );
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:animation_wrappers/Animations/faded_slide_animation.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -44,9 +45,16 @@ class _HomeScreenState extends State<HomeScreen> {
   int randomRecipeIndex = 0;
   Timer? timer;
 
+  void _onFocusChange() {
+    setState(() {
+      _isFocused = _focusNode.hasFocus;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    _focusNode.addListener(_onFocusChange);
     _notificationSubscription = NotificationsBloc.instance.notificationStream
         .listen(_performActionOnNotification);
     _fetchMostCollectedRecipes();
@@ -84,6 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     _notificationSubscription.cancel();
     if (timer != null) timer?.cancel();
+    _focusNode.removeListener(_onFocusChange);
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -224,7 +234,9 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.all(12),
       child: Text(
         recipe.name!,
-        style: TextStyle(fontSize: 18, fontFamily: 'RobotoCondensed'),
+        style: TextStyle(
+          fontSize: 18,
+        ),
       ),
     );
   }
@@ -255,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       'view_all'.tr(),
                       style: GoogleFonts.roboto(
                         textStyle: TextStyle(
-                          color: Colors.black54,
+                          // color: Colors.black54,
                           fontWeight: FontWeight.normal,
                           fontSize: 13,
                         ),
@@ -269,6 +281,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  bool _isFocused = false;
+  FocusNode _focusNode = FocusNode();
+
   _buildSearchField() {
     return Consumer<RecipeProvider>(builder: (context, recipePro, child) {
       List<Recipe> _recipes = recipePro.mostCollectedRecipes;
@@ -277,23 +292,65 @@ class _HomeScreenState extends State<HomeScreen> {
               ? _recipes[randomRecipeIndex]
               : _recipes.first
           : null;
-      return SearchTextfield(
-        hintText: '${'search_for'.tr()} ${recipe?.name ?? 'recipes'}',
-        controller: _searchKeywordController,
-        suffixIconOnTap: () {
-          if (_searchKeywordController.text.isNotEmpty) {
-            FocusScope.of(context).unfocus();
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (ctx) => SearchScreen(
-                  keyword: _searchKeywordController.text,
+      return Stack(
+        children: [
+          SearchTextfield(
+            focusNode: _focusNode,
+            hintText: '',
+            controller: _searchKeywordController,
+            onTap: () {
+              setState(() {
+                _isFocused = true;
+              });
+            },
+            suffixIconOnTap: () {
+              setState(() {
+                _isFocused = false;
+              });
+              if (_searchKeywordController.text.isNotEmpty) {
+                FocusScope.of(context).unfocus();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (ctx) => SearchScreen(
+                      keyword: _searchKeywordController.text,
+                    ),
+                  ),
+                );
+              }
+            },
+            onChanged: () => null,
+          ),
+          Container(
+            // width: MediaQuery.of(context).size.width * 0.7,
+            height: 35,
+            padding: const EdgeInsets.only(left: 30, top: 16, right: 50),
+            child: GestureDetector(
+              onTap: () {
+                _focusNode.requestFocus();
+              },
+              child: DefaultTextStyle(
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey.shade500
+                ),
+                child: AnimatedTextKit(
+                  isRepeatingAnimation: true,
+                  repeatForever: true,
+                  animatedTexts: [
+                    TypewriterAnimatedText(
+                      '${'search_for'.tr()} ${recipe?.name ?? 'recipes'}',
+                      speed: Duration(milliseconds: 100),
+                    ),
+                  ],
+                  onTap: () {
+                    _focusNode.requestFocus();
+                  },
                 ),
               ),
-            );
-          }
-        },
-        onChanged: () => null,
+            ),
+          ),
+        ],
       );
     });
   }
@@ -350,7 +407,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   _recipes[index].name!,
                                   style: TextStyle(
                                     fontSize: 18,
-                                    fontFamily: 'Brandon',
+                                    // fontFamily: 'Brandon',
                                     color: Colors.white,
                                   ),
                                 ),
@@ -377,7 +434,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Center(
                     child: Text(
                       'No Recipes To Display',
-                      style: GoogleFonts.pacifico(fontSize: 14),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontSize: 14),
                     ),
                   ),
                 );
@@ -395,7 +455,6 @@ class _HomeScreenState extends State<HomeScreen> {
           List<Recipe> _recipes = recipe.recentRecipes;
           return _recipes.isNotEmpty
               ? GridView.builder(
-
                   key: _contentKey,
                   padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
                   shrinkWrap: true,
@@ -457,7 +516,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "no_recipes_to_display".tr(),
           style: TextStyle(
             fontSize: 16,
-            color: Colors.grey[900]?.withOpacity(0.7),
+            // color: Colors.grey[900]?.withOpacity(0.7),
           ),
         ),
       ],
@@ -573,7 +632,10 @@ class _CategoryHorizontalListState extends State<CategoryHorizontalList> {
             : Center(
                 child: Text(
                   'no_categories_found'.tr(),
-                  style: GoogleFonts.pacifico(fontSize: 16),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(fontSize: 16),
                 ),
               );
       }

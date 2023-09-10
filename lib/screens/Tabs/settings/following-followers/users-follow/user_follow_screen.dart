@@ -9,6 +9,8 @@ import 'package:food_recipes_app/widgets/shimmer_loading.dart';
 import 'package:food_recipes_app/widgets/user_list_item.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../utils/utils.dart';
+
 class UserFollowScreen extends StatefulWidget {
   @override
   _UserFollowScreenState createState() => _UserFollowScreenState();
@@ -72,12 +74,13 @@ class _UserFollowScreenState extends State<UserFollowScreen>
       appBar: AppBar(
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle.light,
-        iconTheme: IconThemeData(color: Colors.black),
+        // iconTheme: IconThemeData(color: Colors.black),
+        leading: buildSimpleBackArrow(context),
         backgroundColor: Colors.transparent,
         centerTitle: true,
         title: Text(
           'follow_someone'.tr(),
-          style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
+          // style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
         ),
       ),
       body: Column(
@@ -128,7 +131,7 @@ class _UserFollowScreenState extends State<UserFollowScreen>
       child: Center(
         child: Text(
           'start_looking_for_users'.tr(),
-          style: TextStyle(fontFamily: 'Brandon'),
+          // style: TextStyle(fontFamily: 'Brandon'),
         ),
       ),
     );

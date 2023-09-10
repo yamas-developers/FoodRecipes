@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:food_recipes_app/widgets/checkbox_list_tile.dart';
 import 'package:food_recipes_app/widgets/steps_list_tile.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -150,8 +151,10 @@ Future showCustomDialogWithTitle(
                   style: TextButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
-                  child: Text('submit'.tr(),
-                      style: TextStyle(color: Colors.white)),
+                  child: Text(
+                    'submit'.tr(),
+                    style: TextStyle(color: Colors.white),
+                  ),
                   onPressed: () => onTapSubmit(),
                 )
               : Container(),
@@ -169,8 +172,31 @@ buildBackButton(context, {EdgeInsetsGeometry? padding, dynamic onTap}) {
       child: CircleAvatar(
         radius: 18,
         backgroundColor: Colors.white,
-        child: Icon(Icons.arrow_back_ios_new, color: Colors.black, size: 30),
+        child:
+            Icon(Icons.arrow_back_ios_new, /*color: Colors.black,*/ size: 30),
       ),
+    ),
+  );
+}
+
+buildSimpleBackArrow(context, {EdgeInsetsGeometry? padding, dynamic onTap}) {
+  return GestureDetector(
+    onTap: onTap ?? () => Navigator.pop(context),
+    child: Icon(Icons.arrow_back_ios_new),
+  );
+}
+
+buildAppBar(String title, context) {
+  return AppBar(
+    elevation: 0,
+    systemOverlayStyle: SystemUiOverlayStyle.light,
+    // iconTheme: IconThemeData(color: Colors.black),
+    leading: buildSimpleBackArrow(context),
+    backgroundColor: Colors.transparent,
+    centerTitle: true,
+    title: Text(
+      title,
+      // style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
     ),
   );
 }

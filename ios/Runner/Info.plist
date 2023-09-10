@@ -53,8 +53,6 @@
 	<string>3077225005726129</string>
 	<key>FacebookDisplayName</key>
 	<string>Food Recipes</string>
-	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-1469570455778464~1228577141</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

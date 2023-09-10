@@ -30,7 +30,7 @@ class DefaultCustomButton extends StatelessWidget {
         child: FittedBox(
           child: Text(
             text!.toUpperCase(),
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            style: TextStyle(fontWeight: FontWeight.bold,/* color: Colors.white*/),
           ),
         ),
         onPressed: () => onPressed!(),

@@ -6,7 +6,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:food_recipes_app/Theme/colors.dart';
 import 'package:food_recipes_app/config/app_config.dart';
+import 'package:food_recipes_app/main.dart';
 import 'package:food_recipes_app/providers/auth_provider.dart';
 import 'package:food_recipes_app/screens/Auth/login/login_screen.dart';
 import 'package:food_recipes_app/screens/Other/profile/profile_screen.dart';
@@ -23,6 +25,7 @@ import 'package:launch_review/launch_review.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../providers/app_provider.dart';
 import '../../Auth/intro_screen.dart';
 import 'languages/languages_screen.dart';
 
@@ -37,12 +40,18 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   AuthProvider? _authProvider;
+  // bool isDarkModeEnabled = false;
 
   @override
   void initState() {
     super.initState();
     _authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (_authProvider!.user != null) _authProvider!.getFollowingFollowers();
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   setState(() {
+    //     isDarkModeEnabled = Theme.of(context).brightness == Brightness.dark;
+    //   });
+    // });
   }
 
   _logout() async {
@@ -59,12 +68,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
       });
     }
     Provider.of<AuthProvider>(context, listen: false).logout();
-    _navigateToLoginScreen();
+    _navigateToIntroScreen();
   }
 
-  _navigateToLoginScreen() {
+  _navigateToIntroScreen() {
     Navigator.of(context).pushNamedAndRemoveUntil(
-      LoginScreen.routeName,
+      IntroScreen.routeName,
       (Route<dynamic> route) => false,
     );
   }
@@ -231,199 +240,227 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   _buildButtonsList(auth) {
     return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Container(
-          child: NotificationListener<OverscrollIndicatorNotification>(
-            onNotification: (OverscrollIndicatorNotification overscroll) {
-              overscroll.disallowIndicator();
-              return true;
-            },
-            child: ListView(
-              shrinkWrap: true,
-              children: <Widget>[
-                InkWell(
-                  onTap: () async => auth.user != null
-                      ? await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => EditProfileScreen(),
-                          ),
-                        )
-                      : await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => IntroScreen(),
-                          ),
-                        ),
-                  child: auth.user != null
-                      ? _listViewItem(
-                          context,
-                          Icons.person_pin,
-                          'my_profile'.tr(),
-                        )
-                      : _listViewItem(
-                          context,
-                          Icons.person_pin,
-                          'login_or_create_account'.tr(),
-                        ),
-                ),
-                Divider(height: 1.5, indent: 15, endIndent: 15),
-                auth.user != null
-                    ? Column(
-                        children: [
-                          InkWell(
+      child: Consumer<AppProvider>(
+        builder: (context, AppProvider appProvider, _) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Container(
+              child: NotificationListener<OverscrollIndicatorNotification>(
+                onNotification: (OverscrollIndicatorNotification overscroll) {
+                  overscroll.disallowIndicator();
+                  return true;
+                },
+                child: ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () async => auth.user != null
+                          ? await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditProfileScreen(),
+                              ),
+                            )
+                          : await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => IntroScreen(),
+                              ),
+                            ),
+                      child: auth.user != null
+                          ? _listViewItem(
+                              context,
+                              Icons.person_pin,
+                              'my_profile'.tr(),
+                            )
+                          : _listViewItem(
+                              context,
+                              Icons.person_pin,
+                              'login_or_create_account'.tr(),
+                            ),
+                    ),
+                    Divider(height: 1.5, indent: 15, endIndent: 15),
+                    auth.user != null
+                        ? Column(
+                            children: [
+                              InkWell(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MyRecipesScreen(),
+                                  ),
+                                ),
+                                child: _listViewItem(
+                                  context,
+                                  Icons.assignment,
+                                  'my_recipes'.tr(),
+                                ),
+                              ),
+                              Divider(height: 1.5, indent: 15, endIndent: 15),
+                            ],
+                          )
+                        : Container(),
+                    auth.user != null
+                        ? InkWell(
                             onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MyRecipesScreen(),
+                                  builder: (context) => CookbookScreen()),
+                            ),
+                            child: Padding(
+                              padding:
+                                  EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    child: Image.asset(
+                                      'assets/images/ic_cookbook_black.png',
+                                      width: 24,
+                                    ),
+                                  ),
+                                  SizedBox(width: 15),
+                                  Text(
+                                    'my_cookbook'.tr(),
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 15,
+                                    color: Theme.of(context).iconTheme.color,
+                                  ),
+                                ],
                               ),
                             ),
-                            child: _listViewItem(
-                              context,
-                              Icons.assignment,
-                              'my_recipes'.tr(),
+                          )
+                        : Container(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 7),
+                          child: Text(
+                            'other'.tr(),
+                            style: GoogleFonts.roboto(
+                              fontSize: 17,
+                              fontWeight: FontWeight.normal,
                             ),
                           ),
-                          Divider(height: 1.5, indent: 15, endIndent: 15),
-                        ],
-                      )
-                    : Container(),
-                auth.user != null
-                    ? InkWell(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CookbookScreen()),
                         ),
-                        child: Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              CircleAvatar(
-                                backgroundColor: Colors.white,
-                                child: Image.asset(
-                                  'assets/images/ic_cookbook_black.png',
-                                  width: 24,
-                                ),
-                              ),
-                              SizedBox(width: 15),
-                              Text(
-                                'my_cookbook'.tr(),
-                                style: GoogleFonts.roboto(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                              Spacer(),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 15,
-                                color: Theme.of(context).iconTheme.color,
-                              ),
-                            ],
-                          ),
+                      ],
+                    ),
+                    InkWell(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LanguagesScreen(),
                         ),
-                      )
-                    : Container(),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 7),
-                      child: Text(
-                        'other'.tr(),
-                        style: GoogleFonts.roboto(
-                          fontSize: 17,
-                          fontWeight: FontWeight.normal,
+                      ),
+                      child: _listViewItem(
+                        context,
+                        Icons.dark_mode,
+                        'dark_mode'.tr(),
+                        trailing: Switch(
+                          value: appProvider.isDark,
+                          activeColor: primaryColor,
+                          onChanged: (newValue) {
+                            setState(() {
+                              appProvider.isDark = newValue;
+                            });
+                            // Toggle between light and dark themes based on the switch state
+                            context.read<AppProvider>().setTheme();
+                          },
                         ),
                       ),
                     ),
+                    InkWell(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LanguagesScreen(),
+                        ),
+                      ),
+                      child: _listViewItem(
+                        context,
+                        Icons.language,
+                        'languages'.tr(),
+                      ),
+                    ),
+                    Divider(height: 1.5, indent: 15, endIndent: 15),
+                    InkWell(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => InformationScreen(
+                              information: 'privacy_policy'.tr(),
+                            ),
+                          )),
+                      child: _listViewItem(
+                          context, Icons.description, 'privacy_policy'.tr()),
+                    ),
+                    Divider(height: 1.5, indent: 15, endIndent: 15),
+                    AppConfig.TermsAndConditionsEnabled
+                        ? Column(
+                            children: [
+                              InkWell(
+                                onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => InformationScreen(
+                                        information: 'terms_and_conditions'.tr(),
+                                      ),
+                                    )),
+                                child: _listViewItem(context, Icons.info,
+                                    'terms_and_conditions'.tr()),
+                              ),
+                              Divider(height: 1.5, indent: 15, endIndent: 15),
+                            ],
+                          )
+                        : Container(),
+                    InkWell(
+                      onTap: () => LaunchReview.launch(
+                          androidAppId: AppConfig.GooglePlayIdentifier,
+                          iOSAppId: AppConfig.AppStoreIdentifier),
+                      child:
+                          _listViewItem(context, Icons.rate_review, 'rate_us'.tr()),
+                    ),
+                    Divider(height: 1.5, indent: 15, endIndent: 15),
+                    InkWell(
+                      onTap: () => _shareApp(),
+                      child: _listViewItem(context, Icons.share, 'share_app'.tr()),
+                    ),
+                    auth.user != null
+                        ? Column(
+                            children: [
+                              Divider(height: 1.5, indent: 15, endIndent: 15),
+                              InkWell(
+                                onTap: () => _logout(),
+                                child: _listViewItem(
+                                    context, Icons.exit_to_app, 'logout'.tr(),
+                                    color: Colors.red),
+                              ),
+                              SizedBox(height: 20),
+                            ],
+                          )
+                        : Container(),
                   ],
                 ),
-                InkWell(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LanguagesScreen(),
-                    ),
-                  ),
-                  child: _listViewItem(
-                    context,
-                    Icons.language,
-                    'languages'.tr(),
-                  ),
-                ),
-                Divider(height: 1.5, indent: 15, endIndent: 15),
-                InkWell(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => InformationScreen(
-                          information: 'privacy_policy'.tr(),
-                        ),
-                      )),
-                  child: _listViewItem(
-                      context, Icons.description, 'privacy_policy'.tr()),
-                ),
-                Divider(height: 1.5, indent: 15, endIndent: 15),
-                AppConfig.TermsAndConditionsEnabled
-                    ? Column(
-                        children: [
-                          InkWell(
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => InformationScreen(
-                                    information: 'terms_and_conditions'.tr(),
-                                  ),
-                                )),
-                            child: _listViewItem(context, Icons.info,
-                                'terms_and_conditions'.tr()),
-                          ),
-                          Divider(height: 1.5, indent: 15, endIndent: 15),
-                        ],
-                      )
-                    : Container(),
-                InkWell(
-                  onTap: () => LaunchReview.launch(
-                      androidAppId: AppConfig.GooglePlayIdentifier,
-                      iOSAppId: AppConfig.AppStoreIdentifier),
-                  child:
-                      _listViewItem(context, Icons.rate_review, 'rate_us'.tr()),
-                ),
-                Divider(height: 1.5, indent: 15, endIndent: 15),
-                InkWell(
-                  onTap: () => _shareApp(),
-                  child: _listViewItem(context, Icons.share, 'share_app'.tr()),
-                ),
-                auth.user != null
-                    ? Column(
-                        children: [
-                          Divider(height: 1.5, indent: 15, endIndent: 15),
-                          InkWell(
-                            onTap: () => _logout(),
-                            child: _listViewItem(
-                                context, Icons.exit_to_app, 'logout'.tr(),
-                                color: Colors.red),
-                          ),
-                          SizedBox(height: 20),
-                        ],
-                      )
-                    : Container(),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        }
       ),
     );
   }
 
   _listViewItem(BuildContext context, IconData icon, String text,
-      {Color? color}) {
+      {Color? color, Widget? trailing}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       child: Row(
@@ -439,14 +476,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
             style: GoogleFonts.roboto(
                 fontSize: 15,
                 fontWeight: FontWeight.normal,
-                color: color != null ? color : Colors.black),
+                color: color != null ? color : null),
           ),
           Spacer(),
-          Icon(
-            Icons.arrow_forward_ios,
-            size: 15,
-            color: color != null ? color : Theme.of(context).iconTheme.color,
-          ),
+          trailing ??
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 15,
+                color:
+                    color != null ? color : Theme.of(context).iconTheme.color,
+              ),
         ],
       ),
     );

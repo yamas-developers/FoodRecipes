@@ -124,7 +124,7 @@ class _MyRecipesRecipeItemState extends State<MyRecipesRecipeItem> {
                 style: TextStyle(
                   fontSize: 10.5,
                   color: Colors.white,
-                  fontFamily: 'Brandon',
+                  // fontFamily: 'Brandon',
                 ),
               ),
             ],
@@ -159,9 +159,9 @@ class _MyRecipesRecipeItemState extends State<MyRecipesRecipeItem> {
       softWrap: true,
       overflow: TextOverflow.ellipsis,
       style: TextStyle(
-        fontFamily: 'Brandon',
+        // fontFamily: 'Brandon',
         fontSize: 17,
-        color: Colors.black.withOpacity(0.7),
+        color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.7),
       ),
     );
   }
@@ -172,7 +172,7 @@ class _MyRecipesRecipeItemState extends State<MyRecipesRecipeItem> {
       style: TextStyle(
         color: Theme.of(context).primaryColor,
         fontSize: 12,
-        fontFamily: 'Brandon',
+        // fontFamily: 'Brandon',
         fontWeight: FontWeight.normal,
       ),
     );
@@ -200,10 +200,13 @@ class _MyRecipesRecipeItemState extends State<MyRecipesRecipeItem> {
         : Text(
             widget.recipe.createdAt.toString().substring(0, 10),
             style: TextStyle(
-              fontSize: 14,
-              fontFamily: 'Brandon',
-              color: Colors.black54,
-            ),
+                fontSize: 14,
+                // fontFamily: 'Brandon',
+                color: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.color
+                    ?.withOpacity(0.5)),
           );
   }
 

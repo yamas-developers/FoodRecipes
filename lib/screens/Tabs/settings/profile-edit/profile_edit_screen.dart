@@ -11,6 +11,7 @@ import 'package:food_recipes_app/preferences/session_manager.dart';
 import 'package:food_recipes_app/providers/auth_provider.dart';
 import 'package:food_recipes_app/screens/Tabs/settings/delete-account/delete_account_screen.dart';
 import 'package:food_recipes_app/services/api_repository.dart';
+import 'package:food_recipes_app/utils/utils.dart';
 import 'package:food_recipes_app/widgets/shimmer_widget.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
@@ -98,22 +99,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: _appBar(),
+      appBar: buildAppBar('my_profile'.tr(), context),
       body: _body(),
-    );
-  }
-
-  _appBar() {
-    return AppBar(
-      elevation: 0,
-      systemOverlayStyle: SystemUiOverlayStyle.light,
-      iconTheme: IconThemeData(color: Colors.black),
-      backgroundColor: Colors.transparent,
-      centerTitle: true,
-      title: Text(
-        'my_profile'.tr(),
-        style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
-      ),
     );
   }
 
@@ -133,14 +120,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    _buildUserImage(auth),
-                    SizedBox(width: 25),
-                    _buildUploadAndDeleteButton(),
-                  ],
-                ),
+                // SizedBox(height: 20),
+                // Row(
+                //   children: [
+                //     _buildUserImage(auth),
+                //     SizedBox(width: 25),
+                //     _buildUploadAndDeleteButton(),
+                //   ],
+                // ),
                 SizedBox(height: 50),
                 _buildInformationFields(auth),
                 SizedBox(height: 50),
@@ -208,54 +195,54 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           );
   }
 
-  _buildUploadAndDeleteButton() {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextButton(
-            style: TextButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 22),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(6)),
-                ),
-                backgroundColor: Colors.grey[100]),
-            child: Text('upload_new_image'.tr(),
-                style: TextStyle(color: Colors.black)),
-            onPressed: () async {
-              final fbAccessToken = await FacebookAuth.instance.accessToken;
-              if (await _googleSignIn.isSignedIn() || fbAccessToken != null)
-                Fluttertoast.showToast(msg: 'this_option_isnt_available'.tr());
-              else
-                chooseImage();
-            },
-          ),
-          TextButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(6)),
-              ),
-              backgroundColor: Colors.grey[100],
-            ),
-            child: Text('delete_image'.tr(),
-                style: TextStyle(color: Colors.black)),
-            onPressed: () async {
-              final fbAccessToken = await FacebookAuth.instance.accessToken;
-              if (await _googleSignIn.isSignedIn() || fbAccessToken != null)
-                Fluttertoast.showToast(msg: 'this_option_isnt_available'.tr());
-              else
-                Provider.of<AuthProvider>(context, listen: false)
-                    .deleteUserImage(_authProvider!.user!.id!);
-              setState(() {
-                image = '';
-              });
-            },
-          )
-        ],
-      ),
-    );
-  }
+  // _buildUploadAndDeleteButton() {
+  //   return Expanded(
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         TextButton(
+  //           style: TextButton.styleFrom(
+  //               padding: EdgeInsets.symmetric(horizontal: 22),
+  //               shape: RoundedRectangleBorder(
+  //                 borderRadius: BorderRadius.all(Radius.circular(6)),
+  //               ),
+  //               backgroundColor: Colors.grey[100]),
+  //           child: Text('upload_new_image'.tr(),
+  //               style: TextStyle(color: Colors.black)),
+  //           onPressed: () async {
+  //             final fbAccessToken = await FacebookAuth.instance.accessToken;
+  //             if (await _googleSignIn.isSignedIn() || fbAccessToken != null)
+  //               Fluttertoast.showToast(msg: 'this_option_isnt_available'.tr());
+  //             else
+  //               chooseImage();
+  //           },
+  //         ),
+  //         TextButton(
+  //           style: TextButton.styleFrom(
+  //             padding: EdgeInsets.symmetric(horizontal: 25),
+  //             shape: RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.all(Radius.circular(6)),
+  //             ),
+  //             backgroundColor: Colors.grey[100],
+  //           ),
+  //           child: Text('delete_image'.tr(),
+  //               style: TextStyle(color: Colors.black)),
+  //           onPressed: () async {
+  //             final fbAccessToken = await FacebookAuth.instance.accessToken;
+  //             if (await _googleSignIn.isSignedIn() || fbAccessToken != null)
+  //               Fluttertoast.showToast(msg: 'this_option_isnt_available'.tr());
+  //             else
+  //               Provider.of<AuthProvider>(context, listen: false)
+  //                   .deleteUserImage(_authProvider!.user!.id!);
+  //             setState(() {
+  //               image = '';
+  //             });
+  //           },
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 
   _buildInformationFields(AuthProvider auth) {
     return Form(
@@ -320,13 +307,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       enabled: enabled,
       controller: controller,
       style: TextStyle(
-        color: Colors.black,
-        fontFamily: 'Raleway',
+        // color: Colors.black,
+        // fontFamily: 'Raleway',
         fontSize: 17,
       ),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(fontSize: 16, fontFamily: 'Raleway'),
+        labelStyle: TextStyle(fontSize: 16, /*fontFamily: 'Raleway'*/),
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -346,13 +333,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       showCursor: false,
       controller: controller,
       style: TextStyle(
-        color: Colors.black,
-        fontFamily: 'Raleway',
+        // color: Colors.black,
+        // fontFamily: 'Raleway',
         fontSize: 17,
       ),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(fontSize: 16, fontFamily: 'Raleway'),
+        labelStyle: TextStyle(fontSize: 16,/* fontFamily: 'Raleway'*/),
         suffixIcon: IconButton(
           icon: Icon(Icons.edit, size: 25, color: Colors.black),
           onPressed: () {
@@ -462,8 +449,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         obscureText: obscure,
         cursorColor: Colors.black,
         style: TextStyle(
-          color: Colors.black,
-          fontFamily: 'Raleway',
+          // color: Colors.black,
+          // fontFamily: 'Raleway',
           fontSize: 17,
         ),
         decoration: InputDecoration(
@@ -472,8 +459,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(50)),
           labelText: text,
           labelStyle: TextStyle(
-            color: Colors.black,
-            fontFamily: 'Raleway',
+            // color: Colors.black,
+            // fontFamily: 'Raleway',
             fontSize: 15,
           ),
           floatingLabelBehavior: FloatingLabelBehavior.never,

@@ -423,6 +423,30 @@ class ApiRepository {
     }
   }
 
+  // Get recent recipes from the database
+  static Future<List<Recipe>?> fetchRecipesByIds(List<int> ids) async {
+    try {
+      String lang = EasyLocalization.of(navigatorKey.currentContext!)!
+          .locale
+          .languageCode;
+      final response = await http.post(Uri.parse(API + '/fetchRecipesByIds'),
+          body: {'ids': jsonEncode(ids)}, headers: headers);
+      print('MK: url: ${API + '/fetchRecipesByIds'}');
+      print('MK: recipes by ids: ${response.body}');
+      if (200 == response.statusCode) {
+        Map json = jsonDecode(response.body);
+        return (json['data'] as List?)
+            ?.map((dynamic e) => Recipe.fromJson(e as Map<String, dynamic>))
+            .toList();
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('fetchRecentRecipes error: $e');
+      return null;
+    }
+  }
+
   // Get all recipes of a category from the database
   static Future<RecipePage?> fetchRecipeByCategory(int id, int page) async {
     try {

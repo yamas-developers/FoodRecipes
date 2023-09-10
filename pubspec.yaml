@@ -81,6 +81,7 @@ dependencies:
   google_mobile_ads: ^2.2.0
   flutter_facebook_auth: ^6.0.0
   animation_wrappers: 0.0.4
+  animated_text_kit: ^4.2.2
 
 dev_dependencies:
   flutter_test:

@@ -249,7 +249,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        color: Colors.white,
+        // color: Colors.white,
       ),
       margin: EdgeInsets.symmetric(horizontal: 0),
       child: CheckboxListTile(
@@ -271,7 +271,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
-                color: Colors.black.withOpacity(0.7),
+                // color: Colors.black.withOpacity(0.7),
               ),
               children: <TextSpan>[
                 TextSpan(text: 'i_agree_to_the'.tr() + ' '),
