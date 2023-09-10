@@ -224,6 +224,7 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
             controller: _refreshController,
             enablePullUp: true,
             physics: BouncingScrollPhysics(),
+      header: MaterialClassicHeader(),
             footer: ClassicFooter(loadStyle: LoadStyle.ShowWhenLoading),
             onRefresh: _onRefresh,
             onLoading: _onLoading,
