@@ -16,9 +16,15 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'dart:ui' as ui;
 
 final GlobalKey<NavigatorState> navigatorKey =
     GlobalKey(debugLabel: "Main Navigator");
+List<Locale> supportedLocales = [
+  Locale('en', 'US'),
+  Locale('fr', 'FR'),
+  Locale('ar', 'AL'),
+];
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,11 +35,7 @@ Future<void> main() async {
   timeago.setLocaleMessages('ar', timeago.ArMessages());
   runApp(
     EasyLocalization(
-      supportedLocales: [
-        Locale('en', 'US'),
-        Locale('fr', 'FR'),
-        Locale('ar', 'AL'),
-      ],
+      supportedLocales: supportedLocales,
       path: 'lang',
       fallbackLocale: Locale('en', 'US'),
       child: MultiProvider(
@@ -64,6 +66,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // Locale preferredLocale = ui.window.locale;
+    // final locale = supportedLocales.contains(preferredLocale)
+    //     ? preferredLocale
+    //     : context.locale;
     return Consumer<AppProvider>(
       builder: (context, appState, child) {
         SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -74,6 +80,7 @@ class _MyAppState extends State<MyApp> {
           DeviceOrientation.portraitUp,
           DeviceOrientation.portraitDown,
         ]);
+
         return RefreshConfiguration(
           headerBuilder: () => WaterDropHeader(),
           footerBuilder: () => ClassicFooter(),

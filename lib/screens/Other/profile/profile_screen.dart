@@ -17,6 +17,8 @@ import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../utils/utils.dart';
+
 class ProfileScreen extends StatefulWidget {
   static const routeName = '/profile-screen';
 
@@ -128,13 +130,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return AppBar(
       elevation: 0,
       systemOverlayStyle: SystemUiOverlayStyle.light,
-      iconTheme: IconThemeData(color: Colors.black),
+      // iconTheme: IconThemeData(color: Colors.black),
+      leading: buildSimpleBackArrow(context),
       backgroundColor: Colors.transparent,
       centerTitle: true,
       title: Text(
         widget.user.name!,
         style: TextStyle(
-          color: Colors.black,
+          // color: Colors.black,
           fontWeight: FontWeight.bold,
           letterSpacing: 0.8,
         ),
@@ -155,7 +158,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
           child: Text(
             'recipes'.tr(),
-            style: GoogleFonts.pacifico(fontSize: 21),
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1!
+                .copyWith(fontSize: 21),
           ),
         ),
         _buildUserRecipesList(queryData),
@@ -290,7 +296,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Text(
                       '${widget.user.name} ' + 'doesnt_have_recipes'.tr(),
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.pacifico(fontSize: 18),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 18),
                     ),
                   )
             : ShimmerLoading(
@@ -332,7 +341,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       : Text(
                           'following'.tr(),
                           maxLines: 1,
-                          style: TextStyle(fontSize: 14, color: Colors.white),
+                          style: TextStyle(fontSize: 14),
                         ),
                 ),
               ),

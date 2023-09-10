@@ -7,10 +7,13 @@ import 'package:food_recipes_app/widgets/search_text_field.dart';
 import 'package:food_recipes_app/widgets/shimmer_loading.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../../../../utils/utils.dart';
+
 class SearchScreen extends StatefulWidget {
   final String? keyword;
+  final bool fromBottomBar;
 
-  SearchScreen({this.keyword});
+  SearchScreen({this.keyword, this.fromBottomBar = false});
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -28,7 +31,9 @@ class _SearchScreenState extends State<SearchScreen>
 
     _searchKeywordController.text = widget.keyword ?? '';
 
-    _fetchRecipes();
+    if (_searchKeywordController.text.isNotEmpty) {
+      _fetchRecipes();
+    }
   }
 
   _fetchRecipes() async {
@@ -71,7 +76,9 @@ class _SearchScreenState extends State<SearchScreen>
       appBar: AppBar(
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle.light,
-        iconTheme: IconThemeData(color: Colors.black),
+        // iconTheme: IconThemeData(color: Colors.black),
+        leading: widget.fromBottomBar ? null : buildSimpleBackArrow(context),
+        // automaticallyImplyLeading: widget.fromBottomBar ? true : false,
         backgroundColor: Colors.transparent,
         centerTitle: false,
         title: Padding(

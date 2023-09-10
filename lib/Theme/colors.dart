@@ -8,6 +8,6 @@ Color backgroundColor = Color(0xfff5f5f5);
 Color cardBg = Color(0xffeeeeee);
 Color textColor = Color(0xff4d4d4d);
 Color cardColor = Color(0xfffbf4e2);
-Color tabColor = Color(0xfff9f9f9);
+Color tabColor = Color(0xffeeeeee);
 Color searchBox = Color(0xff242424);
 // Color borderColor = fontSecondary.withOpacity(0.2);

@@ -50,18 +50,6 @@ class AppConfig {
   // AppStore identifier
   static const AppStoreIdentifier = '1491556149'; // example: 1491556149
 
-  ////////////////////////////////////////
-  //               ADMOB                //
-  ////////////////////////////////////////
-
-  // Admob App Id (Replace this id with your admob app id)
-  static const AppId = 'ca-app-pub-3940256099942544~3347511713';
-
-  // Admob Banner Ad Unit Id (Replace this id with your admob banner ad unit id)
-  static const bannerAdUnitId = 'ca-app-pub-3940256099942544/6300978111';
-
-  // Admob Interstitial Ad Unit Id (Replace this id with your admob interstitial ad unit id)
-  static const interstitialAdUnitId = 'ca-app-pub-3940256099942544/1033173712';
 
   ////////////////////////////////////////
   //             APP SHARING            //

@@ -42,7 +42,6 @@
   "website_url": "Website URL",
   "youtube_url": "Youtube URL",
   "edit_profile": "Edit Profile",
-
   "password": "Password",
   "upload_new_image": "Upload new image",
   "delete_image": "Delete Image",
@@ -147,7 +146,6 @@
   "delete_account": "Delete Account",
   "cancel": "Cancel",
   "account_deletion_confirmation": "Are you sure you want to delete your account? \nif you delete your account you will permanently lose your profile and recipes.",
-
   "name": "Full Name",
   "email": "Email Address",
   "get_started": "Get Started with Food Recipes",
@@ -165,5 +163,7 @@
   "invalid_name": "Invalid Name!",
   "account": "Account",
   "favorites": "Favorites",
-  "":""
+  "dark_mode": "Dark Mode",
+  "please_login_to_be_able_to_add_favorites": "Please login to be able to modify your favorites",
+  "": ""
 }

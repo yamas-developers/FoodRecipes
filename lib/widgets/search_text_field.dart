@@ -5,14 +5,17 @@ class SearchTextfield extends StatelessWidget {
   final TextEditingController? controller;
   final Function? suffixIconOnTap;
   final Function? onChanged;
+  final dynamic onTap;
+  final FocusNode? focusNode;
 
-  const SearchTextfield(
-      {Key? key,
-      this.hintText,
-      this.controller,
-      this.suffixIconOnTap,
-      this.onChanged})
-      : super(key: key);
+  const SearchTextfield({
+    Key? key,
+    this.hintText,
+    this.controller,
+    this.suffixIconOnTap,
+    this.onChanged,
+    this.onTap, this.focusNode,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +36,12 @@ class SearchTextfield extends StatelessWidget {
           ]),
       child: Center(
         child: TextFormField(
+          focusNode: focusNode,
           controller: controller,
           textAlignVertical: TextAlignVertical.center,
           onFieldSubmitted: (_) => suffixIconOnTap!(),
           onChanged: (value) => onChanged!(),
+          onTap: onTap,
           decoration: InputDecoration(
             // fillColor: Theme.of(context).shadowColor,
             // filled: true,

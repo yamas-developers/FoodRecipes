@@ -33,8 +33,8 @@ class _TabsScreenState extends State<TabsScreen> {
     return BottomNavigationBar(
       onTap: _selectPage,
       elevation: 0,
-      backgroundColor: Colors.white,
-      unselectedItemColor: Colors.black26,
+      // backgroundColor: Colors.black,
+      // unselectedItemColor: Colors.black26,
       selectedItemColor: Theme.of(context).primaryColor,
       currentIndex: _selectedPageIndex,
       showSelectedLabels: false,
@@ -42,7 +42,10 @@ class _TabsScreenState extends State<TabsScreen> {
       type: BottomNavigationBarType.fixed,
       items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined, size: 30,),
+          icon: Icon(
+            Icons.home_outlined,
+            size: 30,
+          ),
           // activeIcon: Image.asset(
           //   'assets/images/ic_home.png',
           //   scale: 2.2,
@@ -51,7 +54,10 @@ class _TabsScreenState extends State<TabsScreen> {
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite_border, size: 30,),
+          icon: Icon(
+            Icons.favorite_border,
+            size: 30,
+          ),
           // activeIcon: Image.asset(
           //   'assets/images/ic_add.png',
           //   scale: 2.2,
@@ -60,7 +66,10 @@ class _TabsScreenState extends State<TabsScreen> {
           label: 'Favorite',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.category_outlined, size: 30,),
+          icon: Icon(
+            Icons.category_outlined,
+            size: 30,
+          ),
           // activeIcon: Image.asset(
           //   'assets/images/ic_category.png',
           //   scale: 2.2,
@@ -68,9 +77,11 @@ class _TabsScreenState extends State<TabsScreen> {
           // ),
           label: 'Categories',
         ),
-
         BottomNavigationBarItem(
-          icon: Icon(Icons.search, size: 30,),
+          icon: Icon(
+            Icons.search,
+            size: 30,
+          ),
           // activeIcon: Image.asset(
           //   'assets/images/ic_country.png',
           //   scale: 2.2,
@@ -79,7 +90,10 @@ class _TabsScreenState extends State<TabsScreen> {
           label: 'Cuisine',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person_2_outlined, size: 30,),
+          icon: Icon(
+            Icons.person_2_outlined,
+            size: 30,
+          ),
           // activeIcon: Image.asset(
           //   'assets/images/ic_profile.png',
           //   scale: 1.9,
@@ -97,12 +111,16 @@ class _TabsScreenState extends State<TabsScreen> {
       {'page': HomeScreen()},
       {'page': RecipeFavoriteScreen()},
       {'page': CategoriesScreen()},
-      {'page': SearchScreen()},
+      {
+        'page': SearchScreen(
+          fromBottomBar: true,
+        )
+      },
       {'page': SettingsScreen()},
     ];
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       body: _body(context),
       bottomNavigationBar: _bottomNavigationBar(context),
     );

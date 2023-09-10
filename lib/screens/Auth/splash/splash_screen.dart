@@ -143,7 +143,10 @@ class _SplashScreenState extends State<SplashScreen> {
             Center(
               child: Text(
                 AppConfig.AppName,
-                style: GoogleFonts.pacifico(fontSize: 26),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 26, color: Colors.black),
               ),
             ),
           ],
@@ -164,6 +167,10 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _body() {
-    return _isRetrieving ? _loadingLayout(context) : Provider.of<AuthProvider>(context, listen: false).isLoggedIn ? TabsScreen() : IntroScreen();
+    return _isRetrieving
+        ? _loadingLayout(context)
+        : Provider.of<AuthProvider>(context, listen: false).isLoggedIn
+            ? TabsScreen()
+            : IntroScreen();
   }
 }

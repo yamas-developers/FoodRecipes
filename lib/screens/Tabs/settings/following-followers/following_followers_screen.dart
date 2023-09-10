@@ -8,6 +8,8 @@ import 'package:food_recipes_app/widgets/user_list_item.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../utils/utils.dart';
+
 class FollowingFollowersScreen extends StatefulWidget {
   final int? index;
 
@@ -53,11 +55,14 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
     return AppBar(
       elevation: 0,
       systemOverlayStyle: SystemUiOverlayStyle.light,
-      iconTheme: IconThemeData(color: Colors.black),
+      // iconTheme: IconThemeData(color: Colors.black),
+      leading: buildSimpleBackArrow(context),
       backgroundColor: Colors.transparent,
       centerTitle: true,
-      title: Text((_authProvider.user!.name)!,
-          style: TextStyle(color: Colors.black, fontFamily: 'Brandon')),
+      title: Text(
+        (_authProvider.user!.name)!,
+        // style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
+      ),
       actions: [
         _buildFollowUserButton(),
       ],
@@ -90,7 +95,7 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
         return TabBar(
           controller: _tabController,
           labelColor: Colors.black,
-          labelStyle: TextStyle(fontFamily: 'Brandon'),
+          // labelStyle: TextStyle(fontFamily: 'Brandon'),
           indicatorWeight: 3,
           tabs: [
             Tab(text: "${auth.followerUsers.length}  " + "followers".tr()),
@@ -113,7 +118,8 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
                       child: Text(
                         'you_have_no_followers'.tr(),
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.pacifico(),
+                        style:
+                            Theme.of(context).textTheme.bodyLarge!.copyWith(),
                       ),
                     ),
                   )
@@ -125,7 +131,8 @@ class _FollowingFollowersScreenState extends State<FollowingFollowersScreen>
                       child: Text(
                         'you_are_not_following'.tr(),
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.pacifico(),
+                        style:
+                            Theme.of(context).textTheme.bodyLarge!.copyWith(),
                       ),
                     ),
                   )

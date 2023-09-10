@@ -67,7 +67,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
   AppProvider? _appProvider;
 
   // BannerAd? _bannerAd;
-  InterstitialAd? _interstitialAd;
+  // InterstitialAd? _interstitialAd;
 
   // final bannerController = BannerAdController();
 
@@ -96,44 +96,10 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
 
   void dispose() {
     _commentTextController!.dispose();
-    _interstitialAd?.dispose();
+    // _interstitialAd?.dispose();
     // _bannerAd!.dispose();
     super.dispose();
   }
-
-  // _loadAndShowAds() async {
-  //   if (AppConfig.AdmobEnabled) {
-  //     if (_appProvider!.recipeClickCount == 3) {
-  //       _appProvider!.resetAdClickCount();
-  //
-  //       await InterstitialAd.load(
-  //         adUnitId: 'ca-app-pub-3940256099942544/4411468910',
-  //         request: AdRequest(),
-  //         adLoadCallback: InterstitialAdLoadCallback(
-  //           onAdLoaded: (InterstitialAd ad) {
-  //             // Keep a reference to the ad so you can show it later.
-  //             setState(() {
-  //               _interstitialAd = ad;
-  //             });
-  //             ad.show();
-  //           },
-  //           onAdFailedToLoad: (LoadAdError error) {
-  //             print('InterstitialAd failed to load: $error');
-  //           },
-  //         ),
-  //       );
-  //     }
-  //
-  //     _bannerAd = BannerAd(
-  //       adUnitId: AdmobConfig.bannerAdUnitId,
-  //       size: AdSize(width: 300, height: 50),
-  //       request: AdRequest(),
-  //       listener: BannerAdListener(),
-  //     );
-  //
-  //     await _bannerAd!.load();
-  //   }
-  // }
 
   _getIngredients() {
     LineSplitter ls = new LineSplitter();
@@ -265,6 +231,12 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
   }
 
   Future<void> _addToFavorite() async {
+    if(_authProvider!.user == null){
+      Fluttertoast.showToast(
+        msg: 'please_login_to_be_able_to_add_favorites'.tr(),
+      );
+      return;
+    }
     if (!_favorated) {
       savedRecipeId =
           await db.saveRecipe(_authProvider!.user!.id!, widget.recipe!.id!);
@@ -437,7 +409,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
       margin: EdgeInsets.fromLTRB(0, 250, 0, 0),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.white,
+        // color: Colors.white,
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30), topRight: Radius.circular(30)),
       ),
@@ -445,10 +417,11 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          SizedBox(height: 24),
           _buildRecipeNameRow(),
           SizedBox(height: 10),
-          _buildAuthorInformation(),
-          SizedBox(height: 10),
+          // _buildAuthorInformation(),
+          // SizedBox(height: 10),
           _buildRecipeDetailsRow(),
           _buildSectionTitle(context, 'rate_recipe'.tr()),
           _buildRatingBar(),
@@ -549,7 +522,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
         child: Container(
           child: AutoSizeText(
             '$_likes',
-            style: TextStyle(fontSize: 19, color: Colors.black),
+            style: TextStyle(fontSize: 19, /*color: Colors.black*/),
           ),
         ),
       ),
@@ -684,7 +657,10 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
       child: Container(
         child: AutoSizeText(
           text,
-          style: GoogleFonts.pacifico(color: Colors.black, fontSize: 18),
+          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                fontSize: 16,
+                // color: Colors.black,
+              ),
         ),
       ),
     );
@@ -788,7 +764,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
         margin: EdgeInsets.only(left: 5, top: 10, bottom: 10, right: 5),
         padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         decoration: BoxDecoration(
-            color: Colors.white,
+            // color: Colors.white,
             border:
                 Border.all(color: Theme.of(context).primaryColor, width: 0.4),
             borderRadius: BorderRadius.circular(5)),
@@ -802,8 +778,8 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                 )),
             AutoSizeText(
               value,
-              style: GoogleFonts.roboto(
-                color: Colors.black,
+              style: TextStyle(
+                // color: Colors.black,
                 fontWeight: FontWeight.normal,
                 fontSize: 15,
               ),
@@ -840,7 +816,9 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
         children: <Widget>[
           AutoSizeText(
             '${index + 1}.',
-            style: GoogleFonts.pacifico(),
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1,
           ),
           SizedBox(width: 15),
           Expanded(
@@ -883,15 +861,15 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                 controller: _commentTextController,
                 style: TextStyle(
                     fontSize: 16,
-                    fontFamily: 'Raleway',
+                    // fontFamily: 'Raleway',
                     fontWeight: FontWeight.normal),
                 maxLines: 3,
-                cursorColor: Colors.black,
+                // cursorColor: Colors.black,
                 decoration: InputDecoration.collapsed(
                   hintText: "enter_your_comment_here".tr(),
                   hintStyle: TextStyle(
                     fontSize: 16,
-                    fontFamily: 'Raleway',
+                    // fontFamily: 'Raleway',
                     fontWeight: FontWeight.normal,
                   ),
                 ),
@@ -1048,7 +1026,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                             Text(
                               '${comments[index].user.name}',
                               style: TextStyle(
-                                  color: Colors.black,
+                                  // color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15),
                             ),
@@ -1056,7 +1034,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                             Text(
                               '${timeago.format(comments[index].createdAt, locale: context.locale.languageCode)}',
                               style: TextStyle(
-                                  color: Colors.black,
+                                  // color: Colors.black,
                                   fontWeight: FontWeight.w300,
                                   fontFamily: 'RobotoCondensed',
                                   fontSize: 14),

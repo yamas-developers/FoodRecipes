@@ -24,9 +24,15 @@ import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../Theme/colors.dart';
+import '../../models/recipe_page.dart';
+import '../../widgets/home_recipe_item.dart';
+import '../../widgets/shimmer_loading.dart';
 
 class RecipeFavoriteScreen extends StatefulWidget {
   static const routeName = '/recipe-favorite';
@@ -42,10 +48,20 @@ class RecipeFavoriteScreen extends StatefulWidget {
 
 class _RecipeFavoriteScreenState extends State<RecipeFavoriteScreen> {
   var db = new CookBookDatabaseHelper();
+  bool _isFetching = true;
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   TextEditingController? _commentTextController;
   int? savedRecipeId;
   bool _favorated = false;
+  GlobalKey _refreshKey = GlobalKey();
+  GlobalKey _contentKey = GlobalKey();
+  List<Recipe> _recipes = [];
+  int _recipesPage = 1;
+  int _maxPages = 1;
+  int _itemsPerPage = 10;
+  List _recipeIds = [];
 
   AuthProvider? _authProvider;
   AppProvider? _appProvider;
@@ -59,30 +75,20 @@ class _RecipeFavoriteScreenState extends State<RecipeFavoriteScreen> {
     _authProvider = Provider.of<AuthProvider>(context, listen: false);
     _appProvider = Provider.of<AppProvider>(context, listen: false);
 
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      _recipeIds = await db.getAllRecipes();
+      if (_recipeIds.isNotEmpty) {
+        _maxPages = (_recipeIds.length / _itemsPerPage).ceil();
+      }
+      _fetchRecipes();
+    });
+
     // _loadAndShowAds();
   }
 
   void dispose() {
     _commentTextController!.dispose();
     super.dispose();
-  }
-
-  // From local database
-  Future _getRecipeIfExist() async {
-    await db.checkIfRecipeExists(widget.recipe!.id!).then((state) {
-      setState(() {
-        _favorated = state;
-      });
-    });
-  }
-
-  _launchURL(String url) async {
-    Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 
   @override
@@ -100,115 +106,131 @@ class _RecipeFavoriteScreenState extends State<RecipeFavoriteScreen> {
   }
 
   _body() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.only(bottom: 55, top: 14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            // Row(
-            //   children: [
-            //     buildBackButton(context, padding: EdgeInsets.zero),
-            //   ],
-            // ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 22, vertical: 0),
-              child: Text(
-                'favorites'.tr(),
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 32, fontWeight: FontWeight.w700),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  buildBack() {
-    return Row(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 25),
-          child: TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.white,
-              shape: new CircleBorder(),
-            ),
-            child: Icon(Icons.arrow_back, size: 25, color: Colors.black),
-            onPressed: () => Navigator.pop(context, false),
-          ),
-        ),
-      ],
-    );
-  }
-
-  _buildSocialButtons() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 175, 20, 0),
+      padding: EdgeInsets.only(bottom: 0, top: 14),
       child: Column(
-        children: [
-          widget.recipe!.websiteUrl!.isNotEmpty
-              ? Padding(
-                  padding: EdgeInsets.only(right: 8),
-                  child: GestureDetector(
-                    onTap: () => _launchURL(widget.recipe!.websiteUrl!),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: _buildWebsiteButton(),
-                    ),
-                  ),
-                )
-              : Container(),
-          widget.recipe!.youtubeUrl!.isNotEmpty
-              ? GestureDetector(
-                  onTap: () => _launchURL(widget.recipe!.youtubeUrl!),
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: Image.asset(
-                      'assets/images/watch_on_youtube.png',
-                      width: 100,
-                    ),
-                  ),
-                )
-              : Container()
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          // Row(
+          //   children: [
+          //     buildBackButton(context, padding: EdgeInsets.zero),
+          //   ],
+          // ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 0),
+            child: Text(
+              'favorites'.tr(),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(fontSize: 32, fontWeight: FontWeight.w700),
+            ),
+          ),
+          // TextButton(
+          //     onPressed: () async {
+          //       print('MK: favorites: ${await db.getAllRecipes()}');
+          //     },
+          //     child: Text('add_to_favorites'.tr())),
+          Expanded(child: _listview()),
         ],
       ),
     );
   }
 
-  _buildWebsiteButton() {
-    return Container(
-      width: 85,
-      height: 28,
-      child: Center(
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Icon(Icons.web, color: Colors.white),
-            ),
-            Expanded(
-              child: Text(
-                'VISIT WEBSITE',
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.9),
-                  fontSize: 8.5,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.all(Radius.circular(3)),
-      ),
-    );
+  Widget _listview() {
+    return _isFetching
+        ? ShimmerLoading(type: ShimmerType.Recipes)
+        : SmartRefresher(
+            key: _refreshKey,
+            controller: _refreshController,
+            enablePullUp: true,
+            physics: BouncingScrollPhysics(),
+            header: MaterialClassicHeader(color: primaryColor),
+            footer: ClassicFooter(loadStyle: LoadStyle.ShowWhenLoading),
+            onRefresh: _onRefresh,
+            onLoading: _onLoading,
+            child: _recipes.isNotEmpty
+                ? GridView.builder(
+                    physics: BouncingScrollPhysics(),
+                    key: _contentKey,
+                    padding: EdgeInsets.only(top: 10, bottom: 0),
+                    itemBuilder: (ctx, index) => HomeRecipeItem(
+                      recipe: _recipes[index],
+                    ),
+                    itemCount: _recipes.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 0.68,
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10),
+                  )
+                : Center(
+                    child: Text(
+                      "no_recipes_to_display".tr(),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontSize: 17),
+                    ),
+                  ),
+          );
+  }
+
+  _getRecipesIds() {
+    int startIndex = (_recipesPage - 1) * _itemsPerPage;
+    int endIndex = startIndex + _itemsPerPage;
+    if (startIndex < _recipeIds.length) {
+      List idsForCurrentPage = _recipeIds.sublist(startIndex,
+          endIndex > _recipeIds.length ? _recipeIds.length : endIndex);
+      return idsForCurrentPage;
+    } else {
+      return [];
+    }
+  }
+
+  _fetchRecipes() async {
+    List<Recipe>? recipes;
+    recipes = (await ApiRepository.fetchRecipesByIds(_getRecipesIds()));
+
+    if (mounted)
+      setState(() {
+        _recipes = recipes ?? [];
+        _isFetching = false;
+      });
+  }
+
+  _onRefresh() async {
+    List<Recipe>? recipes;
+
+    setState(() {
+      _isFetching = true;
+    });
+    recipes = (await ApiRepository.fetchRecipesByIds(_getRecipesIds()));
+
+    _recipes.clear();
+    _recipesPage = 1;
+    _recipes.addAll(recipes ?? []);
+
+    if (mounted)
+      setState(() {
+        _refreshController.refreshCompleted();
+        _isFetching = false;
+      });
+  }
+
+  _onLoading() async {
+    List<Recipe>? recipes;
+    _recipesPage++;
+    if (_recipesPage > _maxPages) {
+      _refreshController.loadNoData();
+      return;
+    }
+    recipes = (await ApiRepository.fetchRecipesByIds(_getRecipesIds()));
+    _recipes.addAll(recipes ?? []);
+    if (mounted)
+      setState(() {
+        _refreshController.loadComplete();
+      });
   }
 
 // _buildAddToFavoriteButton() {

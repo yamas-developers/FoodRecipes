@@ -15,7 +15,9 @@ class SearchTextField extends StatelessWidget {
       child: TextField(
         controller: controller,
         focusNode: focusNode,
-        style: TextStyle(fontSize: 16, color: Colors.black),
+        style: TextStyle(fontSize: 16,
+            // color: Colors.black
+        ),
         decoration: InputDecoration(
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black),
@@ -26,8 +28,10 @@ class SearchTextField extends StatelessWidget {
           suffixIcon: Icon(Icons.search, color: Colors.black54),
           border: InputBorder.none,
           hintText: tr('search_here'),
-          hintStyle: GoogleFonts.pacifico(
-              color: Colors.black54, fontWeight: FontWeight.w100),
+          hintStyle: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(color: Colors.black54, fontWeight: FontWeight.w100),
           contentPadding: EdgeInsets.only(
             left: 16,
             right: 20,

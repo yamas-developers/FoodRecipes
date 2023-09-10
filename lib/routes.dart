@@ -1,3 +1,4 @@
+import 'package:food_recipes_app/screens/Auth/intro_screen.dart';
 import 'package:food_recipes_app/screens/Auth/login/login_screen.dart';
 import 'package:food_recipes_app/screens/Tabs/settings/profile-edit/profile_edit_screen.dart';
 import 'package:food_recipes_app/screens/Other/recipe-details/recipe_details_screen.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/widgets.dart';
 final Map<String, WidgetBuilder> routes = {
   SplashScreen.routeName: (context) => SplashScreen(),
   LoginScreen.routeName: (context) => LoginScreen(),
+  IntroScreen.routeName: (context) => IntroScreen(),
   RegisterScreen.routeName: (context) => RegisterScreen(),
   EditProfileScreen.routeName: (context) => EditProfileScreen(),
   TabsScreen.routeName: (context) => TabsScreen(),

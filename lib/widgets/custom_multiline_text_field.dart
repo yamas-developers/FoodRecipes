@@ -18,14 +18,14 @@ class CustomMultiLineTextField extends StatelessWidget {
       controller: controller,
       maxLines: null,
       style:
-          TextStyle(color: Colors.black, fontFamily: 'Raleway', fontSize: 17),
+          TextStyle(/*color: Colors.black, fontFamily: 'Raleway',*/ fontSize: 17),
       decoration: InputDecoration(
         suffixIcon: IconButton(
           onPressed: () => function(),
           icon: Icon(Icons.remove_red_eye),
         ),
         labelText: label,
-        labelStyle: TextStyle(fontSize: 13, fontFamily: 'Raleway'),
+        labelStyle: TextStyle(fontSize: 13, /*fontFamily: 'Raleway'*/),
         alignLabelWithHint: true,
       ),
     );

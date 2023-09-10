@@ -10,6 +10,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../../../../utils/utils.dart';
+
 class MyRecipesScreen extends StatefulWidget {
   @override
   _MyRecipesScreenState createState() => _MyRecipesScreenState();
@@ -53,12 +55,13 @@ class _MyRecipesScreenState extends State<MyRecipesScreen> {
     return AppBar(
       elevation: 0,
       systemOverlayStyle: SystemUiOverlayStyle.light,
-      iconTheme: IconThemeData(color: Colors.black),
+      // iconTheme: IconThemeData(color: Colors.black),
+      leading: buildSimpleBackArrow(context),
       backgroundColor: Colors.transparent,
       centerTitle: true,
       title: Text(
         'my_recipes'.tr(),
-        style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
+        // style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
       ),
       actions: [
         IconButton(
@@ -93,7 +96,10 @@ class _MyRecipesScreenState extends State<MyRecipesScreen> {
               : Center(
                   child: Text(
                     'no_recipes_to_display'.tr(),
-                    style: GoogleFonts.pacifico(fontSize: 17),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(fontSize: 17),
                   ),
                 )
           : ShimmerLoading(type: ShimmerType.Recipes),

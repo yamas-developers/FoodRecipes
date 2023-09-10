@@ -24,11 +24,11 @@ class CustomDeletedTextField extends StatelessWidget {
             showCursor: false,
             controller: controller,
             style: TextStyle(
-                color: Colors.black, fontFamily: 'Raleway', fontSize: 17),
+                /*color: Colors.black, fontFamily: 'Raleway',*/ fontSize: 17),
             onTap: () => function(),
             decoration: InputDecoration(
               labelText: label,
-              labelStyle: TextStyle(fontSize: 13, fontFamily: 'Raleway'),
+              labelStyle: TextStyle(fontSize: 13, /*fontFamily: 'Raleway'*/),
             ),
           ),
         ),

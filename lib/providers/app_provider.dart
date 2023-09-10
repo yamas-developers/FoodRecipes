@@ -4,15 +4,29 @@ import 'package:food_recipes_app/models/language.dart';
 import 'package:food_recipes_app/models/settings.dart';
 import 'package:food_recipes_app/services/api_repository.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Theme/style.dart';
+import '../preferences/session_manager.dart';
 
 class AppProvider extends ChangeNotifier {
+  AppProvider() {
+    getTheme();
+  }
+
   Settings? _settings;
   List<Difficulty> _difficulties = [];
   List<Language> _languages = [];
   int _recipeClickCount = 0;
   ThemeData _theme = appTheme;
+  bool _isDark = false;
+
+  bool get isDark => _isDark;
+
+  set isDark(bool value) {
+    _isDark = value;
+    notifyListeners();
+  }
 
   Settings? get settings => _settings;
 
@@ -24,14 +38,24 @@ class AppProvider extends ChangeNotifier {
 
   ThemeData get theme => _theme;
 
-  set theme(ThemeData value) {
-    _theme = value;
+  // set theme(ThemeData value) {
+  //   _theme = value;
+  //   notifyListeners();
+  // }
+
+  getTheme() async {
+    bool? isDark = await SessionManager().getTheme();
+    _isDark = (isDark ?? false);
+    ThemeData theme = _isDark ? darkTheme : appTheme;
+    _theme = theme;
     notifyListeners();
   }
 
-  void setTheme(bool isDark) async {
-    ThemeData theme = isDark ? darkTheme : appTheme;
+  void setTheme() async {
+    // _isDark = isDark;
+    ThemeData theme = _isDark ? darkTheme : appTheme;
     _theme = theme;
+    SessionManager().saveTheme(_isDark);
     notifyListeners();
   }
 

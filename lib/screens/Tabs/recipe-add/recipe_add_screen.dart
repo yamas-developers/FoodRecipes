@@ -214,12 +214,14 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
       systemOverlayStyle: SystemUiOverlayStyle.light,
       backgroundColor: Colors.white,
       automaticallyImplyLeading: widget.hasBackButton,
+      leading: buildSimpleBackArrow(context),
       title: Text(
         widget.recipeId == null ? 'add_recipe'.tr() : 'update_recipe'.tr(),
-        style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
+        // style: TextStyle(
+        //     color: Colors.black, fontFamily: 'Brandon'),
       ),
       centerTitle: true,
-      iconTheme: IconThemeData(color: Colors.black),
+      // iconTheme: IconThemeData(color: Colors.black),
       actions: [
         widget.recipeId != null
             ? IconButton(icon: Icon(Icons.save), onPressed: _submitRecipe)
@@ -312,7 +314,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
             style: TextStyle(
               fontWeight: FontWeight.normal,
               wordSpacing: 0,
-              fontFamily: 'Brandon',
+              // fontFamily: 'Brandon',
               fontSize: 20,
             ),
           ),

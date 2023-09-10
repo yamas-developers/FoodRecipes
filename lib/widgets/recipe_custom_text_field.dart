@@ -21,13 +21,13 @@ class RecipeCustomTextField extends StatelessWidget {
       controller: controller,
       keyboardType: textInputType,
       style: TextStyle(
-        color: Colors.black,
-        fontFamily: 'Raleway',
+        // color: Colors.black,
+        // fontFamily: 'Raleway',
         fontSize: 17,
       ),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(fontSize: 13, fontFamily: 'Raleway'),
+        labelStyle: TextStyle(fontSize: 13, /*fontFamily: 'Raleway'*/),
       ),
       inputFormatters: textInputFormatter != null
           ? <TextInputFormatter>[textInputFormatter!]

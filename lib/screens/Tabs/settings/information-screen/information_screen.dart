@@ -6,6 +6,8 @@ import 'package:food_recipes_app/providers/app_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../utils/utils.dart';
+
 class InformationScreen extends StatefulWidget {
   final String? information;
 
@@ -45,12 +47,13 @@ class _InformationScreenState extends State<InformationScreen> {
     return AppBar(
       elevation: 0,
       systemOverlayStyle: SystemUiOverlayStyle.light,
-      iconTheme: IconThemeData(color: Colors.black),
+      // iconTheme: IconThemeData(color: Colors.black),
+      leading: buildSimpleBackArrow(context),
       backgroundColor: Colors.transparent,
       centerTitle: true,
       title: Text(
         widget.information!,
-        style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
+        // style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
       ),
     );
   }

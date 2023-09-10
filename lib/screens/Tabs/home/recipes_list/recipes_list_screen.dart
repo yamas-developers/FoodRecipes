@@ -17,6 +17,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../Theme/colors.dart';
+import '../../../../utils/utils.dart';
 
 enum ListType { Newest, Category, Cuisine }
 
@@ -45,7 +46,7 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
 
   var _paddingBottom = AppConfig.AdmobEnabled ? 48.0 : 0.0;
 
-  BannerAd? bannerAd;
+  // BannerAd? bannerAd;
 
   @override
   void initState() {
@@ -58,38 +59,8 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
   @override
   void dispose() {
     super.dispose();
-    bannerAd!.dispose();
+    // bannerAd!.dispose();
   }
-
-  // _loadAndShowAd() async {
-  //   if (AppConfig.AdmobEnabled) {
-  //     bannerAd = BannerAd(
-  //       adUnitId: AdmobConfig.bannerAdUnitId,
-  //       size: AdSize(width: 300, height: 50),
-  //       request: AdRequest(),
-  //       listener: BannerAdListener(
-  //         // Called when an ad is successfully received.
-  //         onAdLoaded: (Ad ad) {},
-  //         // Called when an ad request failed.
-  //         onAdFailedToLoad: (Ad ad, LoadAdError error) {
-  //           // Dispose the ad here to free resources.
-  //           ad.dispose();
-  //           setState(() => _paddingBottom = 0);
-  //           print('Ad failed to load: $error');
-  //         },
-  //         // Called when an ad opens an overlay that covers the screen.
-  //         onAdOpened: (Ad ad) => print('Ad opened.'),
-  //         // Called when an ad removes an overlay that covers the screen.
-  //         onAdClosed: (Ad ad) => setState(() => _paddingBottom = 0),
-  //         // Called when an impression occurs on the ad.
-  //         onAdImpression: (Ad ad) => print('Ad impression.'),
-  //       ),
-  //     );
-  //
-  //     await bannerAd!.load();
-  //     // if (bannerAd.isLoaded) _bannerController.show();
-  //   }
-  // }
 
   _fetchRecipes() async {
     RecipePage? recipePage;
@@ -197,7 +168,7 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
       ),
       footerTriggerDistance: 30,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
         appBar: _appBar(),
         body: _body(),
       ),
@@ -208,13 +179,14 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
     return AppBar(
       systemOverlayStyle: SystemUiOverlayStyle.light,
       elevation: 0,
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
+      leading: buildSimpleBackArrow(context),
       centerTitle: true,
       title: Text(
         _displayName(),
-        style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
+        // style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
       ),
-      iconTheme: IconThemeData(color: Colors.black),
+      // iconTheme: IconThemeData(color: Colors.black),
     );
   }
 
@@ -248,7 +220,10 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
                 : Center(
                     child: Text(
                       "no_recipes_to_display".tr(),
-                      style: GoogleFonts.pacifico(fontSize: 17),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontSize: 17),
                     ),
                   ),
           );

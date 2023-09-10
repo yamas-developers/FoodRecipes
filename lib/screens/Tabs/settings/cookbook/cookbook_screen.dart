@@ -12,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../main.dart';
+import '../../../../utils/utils.dart';
 
 var db = new CookBookDatabaseHelper();
 
@@ -60,13 +61,14 @@ class _CookbookScreenState extends State<CookbookScreen> {
   _appBar() {
     return AppBar(
       elevation: 0,
-      iconTheme: IconThemeData(color: Colors.black),
+      // iconTheme: IconThemeData(color: Colors.black),
+      leading: buildSimpleBackArrow(context),
       systemOverlayStyle: SystemUiOverlayStyle.light,
       backgroundColor: Colors.transparent,
       centerTitle: true,
       title: Text(
         'my_cookbook'.tr(),
-        style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
+        // style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
       ),
     );
   }
@@ -113,7 +115,10 @@ class _CookbookScreenState extends State<CookbookScreen> {
           child: Text(
             tr('you_have_no_saved_recipes'),
             textAlign: TextAlign.center,
-            style: GoogleFonts.pacifico(fontSize: queryData.size.width / 20),
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge!
+                .copyWith(fontSize: queryData.size.width / 20),
           ),
         ),
       );

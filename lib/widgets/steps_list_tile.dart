@@ -21,11 +21,11 @@ class StepsListTile extends StatelessWidget {
         children: <Widget>[
           Text(
             '${index + 1}.',
-            style: GoogleFonts.pacifico(
-              fontSize: 14.5,
-              color: Colors.black,
-              fontWeight: FontWeight.normal,
-            ),
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  fontSize: 14.5,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
+                ),
           ),
           SizedBox(width: 15),
           Expanded(

@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:math';
+
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_recipes_app/models/category.dart';
@@ -12,6 +16,9 @@ import 'package:easy_localization/easy_localization.dart';
 
 import '../../../Components/entry_field.dart';
 import '../../../Theme/colors.dart';
+import '../../../models/recipe.dart';
+import '../../../providers/recipe_provider.dart';
+import '../../../utils/utils.dart';
 import '../../../widgets/search_text_field.dart';
 import '../home/search/search_screen.dart';
 
@@ -34,6 +41,23 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     super.initState();
     _categoryProvider = Provider.of<CategoryProvider>(context, listen: false);
     _fetchCategories();
+    startTimer();
+  }
+
+  int generateRandomNumber() {
+    Random random = Random();
+    return random.nextInt(context
+        .read<RecipeProvider>()
+        .mostCollectedRecipes
+        .length); // Generates a random number between 0 and maxNumber (inclusive)
+  }
+
+  void startTimer() {
+    timer = Timer.periodic(Duration(seconds: 3), (timer) {
+      setState(() {
+        randomRecipeIndex = generateRandomNumber();
+      });
+    });
   }
 
   _fetchCategories() async {
@@ -61,6 +85,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       });
   }
 
+  @override
+  void dispose() {
+    if (timer != null) timer?.cancel();
+    super.dispose();
+  }
+
   TextEditingController _searchKeywordController = TextEditingController();
 
   @override
@@ -82,6 +112,85 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     );
   }
 
+  bool _isFocused = false;
+  FocusNode _focusNode = FocusNode();
+  int randomRecipeIndex = 0;
+  Timer? timer;
+
+  void _onFocusChange() {
+    setState(() {
+      _isFocused = _focusNode.hasFocus;
+    });
+  }
+
+  _buildSearchField() {
+    return Consumer<RecipeProvider>(builder: (context, recipePro, child) {
+      List<Recipe> _recipes = recipePro.mostCollectedRecipes;
+      Recipe? recipe = _recipes.length > 0
+          ? randomRecipeIndex < _recipes.length
+              ? _recipes[randomRecipeIndex]
+              : _recipes.first
+          : null;
+      return Stack(
+        children: [
+          SearchTextfield(
+            focusNode: _focusNode,
+            hintText: '',
+            controller: _searchKeywordController,
+            onTap: () {
+              setState(() {
+                _isFocused = true;
+              });
+            },
+            suffixIconOnTap: () {
+              setState(() {
+                _isFocused = false;
+              });
+              if (_searchKeywordController.text.isNotEmpty) {
+                FocusScope.of(context).unfocus();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (ctx) => SearchScreen(
+                      keyword: _searchKeywordController.text,
+                    ),
+                  ),
+                );
+              }
+            },
+            onChanged: () => null,
+          ),
+          Container(
+            // width: MediaQuery.of(context).size.width * 0.7,
+            height: 35,
+            padding: const EdgeInsets.only(left: 30, top: 16, right: 50),
+            child: GestureDetector(
+              onTap: () {
+                _focusNode.requestFocus();
+              },
+              child: DefaultTextStyle(
+                style: TextStyle(fontSize: 16, color: Colors.grey.shade500),
+                child: AnimatedTextKit(
+                  isRepeatingAnimation: true,
+                  repeatForever: true,
+                  animatedTexts: [
+                    TypewriterAnimatedText(
+                      '${'search_for'.tr()} ${recipe?.name ?? 'recipes'}',
+                      speed: Duration(milliseconds: 100),
+                    ),
+                  ],
+                  onTap: () {
+                    print("Tap Event");
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    });
+  }
+
   _appBar() {
     return AppBar(
       // centerTitle: true,
@@ -89,7 +198,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       backgroundColor: Colors.transparent,
       automaticallyImplyLeading: false,
       elevation: 0.0,
-      iconTheme: IconThemeData(color: Colors.black),
+      // iconTheme: IconThemeData(color: Colors.black),
+      leading: buildSimpleBackArrow(context),
       title: Padding(
         padding: const EdgeInsets.only(left: 8.0),
         child: Text(
@@ -103,21 +213,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       bottom: PreferredSize(
         preferredSize: Size.fromHeight(65),
         child: true
-            ? SearchTextfield(
-                hintText: 'search_recipes'.tr(),
-                controller: _searchKeywordController,
-                suffixIconOnTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (ctx) => SearchScreen(
-                        keyword: _searchKeywordController.text,
-                      ),
-                    ),
-                  );
-                },
-                onChanged: null,
-              )
+            ? _buildSearchField()
             : Row(
                 children: [
                   Icon(
@@ -188,7 +284,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               : Center(
                   child: Text(
                     'no_categories_found'.tr(),
-                    style: GoogleFonts.pacifico(fontSize: 16),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(fontSize: 16),
                   ),
                 );
         }
