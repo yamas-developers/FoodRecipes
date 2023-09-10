@@ -94,7 +94,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         padding: const EdgeInsets.only(left: 8.0),
         child: Text(
           'categories'.tr(),
-          style: Theme.of(context).textTheme.bodyText1!
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1!
               .copyWith(fontSize: 32, fontWeight: FontWeight.w700),
         ),
       ),
@@ -154,9 +156,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               ? SmartRefresher(
                   key: _refreshKey,
                   controller: _refreshController,
-
                   enablePullUp: true,
-                  header: MaterialClassicHeader(),
+                  header: MaterialClassicHeader(color: primaryColor),
                   physics: BouncingScrollPhysics(),
                   footer: ClassicFooter(loadStyle: LoadStyle.ShowWhenLoading),
                   onRefresh: _onRefresh,
