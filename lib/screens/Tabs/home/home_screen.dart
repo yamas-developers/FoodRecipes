@@ -395,6 +395,7 @@ class _HomeScreenState extends State<HomeScreen> {
           List<Recipe> _recipes = recipe.recentRecipes;
           return _recipes.isNotEmpty
               ? GridView.builder(
+
                   key: _contentKey,
                   padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
                   shrinkWrap: true,

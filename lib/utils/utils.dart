@@ -9,6 +9,8 @@ import 'package:food_recipes_app/widgets/steps_list_tile.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
+import '../Theme/colors.dart';
+
 // Convert minutes into hours
 String getDuration(String value) {
   if (int.parse(value) > 60) {
@@ -50,6 +52,7 @@ Widget swipeToRefresh(context,
     controller: refreshController,
     onRefresh: onRefresh,
     onLoading: onLoading,
+    physics: BouncingScrollPhysics(),
     footer: CustomFooter(
       builder: (BuildContext context, LoadStatus? mode) {
         Widget body;

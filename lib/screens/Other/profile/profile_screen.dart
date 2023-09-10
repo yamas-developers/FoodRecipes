@@ -271,6 +271,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: !isRetrieving
             ? (recipes!.data != null)
                 ? GridView.builder(
+          physics: BouncingScrollPhysics(),
                     itemCount: recipes!.data!.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,

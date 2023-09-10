@@ -16,6 +16,8 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 // import 'package:native_admob_flutter/native_admob_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../../Theme/colors.dart';
+
 enum ListType { Newest, Category, Cuisine }
 
 class RecipesListScreen extends StatefulWidget {
@@ -230,6 +232,7 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
             onLoading: _onLoading,
             child: _recipes.isNotEmpty
                 ? GridView.builder(
+              physics: BouncingScrollPhysics(),
                     key: _contentKey,
                     padding: EdgeInsets.only(top: 10, bottom: _paddingBottom),
                     itemBuilder: (ctx, index) => HomeRecipeItem(

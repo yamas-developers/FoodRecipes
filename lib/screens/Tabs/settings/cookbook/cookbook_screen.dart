@@ -84,6 +84,7 @@ class _CookbookScreenState extends State<CookbookScreen> {
       return !_isRetrieving
           ? AlignedGridView.count(
               crossAxisCount: 2,
+        physics: BouncingScrollPhysics(),
               mainAxisSpacing: 10.0,
               crossAxisSpacing: 10.0,
               itemCount: _recipes?.length,

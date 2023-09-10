@@ -10,6 +10,8 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../../../Theme/colors.dart';
+
 class CuisineScreen extends StatefulWidget {
   static const routeName = '/categories';
 
@@ -104,6 +106,7 @@ class _CuisineScreenState extends State<CuisineScreen> {
                   onRefresh: _onRefresh,
                   onLoading: _onLoading,
                   child: GridView(
+                    physics: BouncingScrollPhysics(),
                     key: _contentKey,
                     padding: const EdgeInsets.all(15),
                     children: _cuisines

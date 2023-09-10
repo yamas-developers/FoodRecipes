@@ -106,6 +106,7 @@ class ShimmerLoading extends StatelessWidget {
         child: GridView.builder(
             itemCount: 10,
             shrinkWrap: true,
+
             physics: NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio: 0.68,
