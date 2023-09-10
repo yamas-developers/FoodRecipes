@@ -154,7 +154,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               ? SmartRefresher(
                   key: _refreshKey,
                   controller: _refreshController,
+
                   enablePullUp: true,
+                  header: MaterialClassicHeader(),
                   physics: BouncingScrollPhysics(),
                   footer: ClassicFooter(loadStyle: LoadStyle.ShowWhenLoading),
                   onRefresh: _onRefresh,
