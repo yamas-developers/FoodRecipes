@@ -28,6 +28,7 @@ class NumberKeyboard extends StatelessWidget {
             GridView.builder(
                 shrinkWrap: true,
                 itemCount: 9,
+                physics: BouncingScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     mainAxisExtent: 60, crossAxisCount: 3),
                 itemBuilder: (context, index) {

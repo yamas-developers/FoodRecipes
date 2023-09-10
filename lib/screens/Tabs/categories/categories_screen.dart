@@ -164,6 +164,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   onLoading: _onLoading,
                   child: GridView(
                     key: _contentKey,
+                    physics: BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(15),
                     children: _categories
                         .map((category) => GridViewItem(

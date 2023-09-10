@@ -78,7 +78,9 @@ class _SearchScreenState extends State<SearchScreen>
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Text(
             'search'.tr(),
-            style: Theme.of(context).textTheme.bodyText1!
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1!
                 .copyWith(fontSize: 32, fontWeight: FontWeight.w700),
           ),
         ),
@@ -108,8 +110,8 @@ class _SearchScreenState extends State<SearchScreen>
           return Expanded(
             // height: 400,
             child: GridView.builder(
-              shrinkWrap: true,
               physics: BouncingScrollPhysics(),
+              shrinkWrap: true,
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
               itemCount: _recipes.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
