@@ -12,6 +12,7 @@ import 'package:food_recipes_app/widgets/home_recipe_item.dart';
 import 'package:food_recipes_app/widgets/shimmer_loading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+
 // import 'package:native_admob_flutter/native_admob_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -49,7 +50,7 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
     super.initState();
 
     _fetchRecipes();
-    _loadAndShowAd();
+    // _loadAndShowAd();
   }
 
   @override
@@ -58,35 +59,35 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
     bannerAd!.dispose();
   }
 
-  _loadAndShowAd() async {
-    if (AppConfig.AdmobEnabled) {
-      bannerAd = BannerAd(
-        adUnitId: AdmobConfig.bannerAdUnitId,
-        size: AdSize(width: 300, height: 50),
-        request: AdRequest(),
-        listener: BannerAdListener(
-          // Called when an ad is successfully received.
-          onAdLoaded: (Ad ad) {},
-          // Called when an ad request failed.
-          onAdFailedToLoad: (Ad ad, LoadAdError error) {
-            // Dispose the ad here to free resources.
-            ad.dispose();
-            setState(() => _paddingBottom = 0);
-            print('Ad failed to load: $error');
-          },
-          // Called when an ad opens an overlay that covers the screen.
-          onAdOpened: (Ad ad) => print('Ad opened.'),
-          // Called when an ad removes an overlay that covers the screen.
-          onAdClosed: (Ad ad) => setState(() => _paddingBottom = 0),
-          // Called when an impression occurs on the ad.
-          onAdImpression: (Ad ad) => print('Ad impression.'),
-        ),
-      );
-
-      await bannerAd!.load();
-      // if (bannerAd.isLoaded) _bannerController.show();
-    }
-  }
+  // _loadAndShowAd() async {
+  //   if (AppConfig.AdmobEnabled) {
+  //     bannerAd = BannerAd(
+  //       adUnitId: AdmobConfig.bannerAdUnitId,
+  //       size: AdSize(width: 300, height: 50),
+  //       request: AdRequest(),
+  //       listener: BannerAdListener(
+  //         // Called when an ad is successfully received.
+  //         onAdLoaded: (Ad ad) {},
+  //         // Called when an ad request failed.
+  //         onAdFailedToLoad: (Ad ad, LoadAdError error) {
+  //           // Dispose the ad here to free resources.
+  //           ad.dispose();
+  //           setState(() => _paddingBottom = 0);
+  //           print('Ad failed to load: $error');
+  //         },
+  //         // Called when an ad opens an overlay that covers the screen.
+  //         onAdOpened: (Ad ad) => print('Ad opened.'),
+  //         // Called when an ad removes an overlay that covers the screen.
+  //         onAdClosed: (Ad ad) => setState(() => _paddingBottom = 0),
+  //         // Called when an impression occurs on the ad.
+  //         onAdImpression: (Ad ad) => print('Ad impression.'),
+  //       ),
+  //     );
+  //
+  //     await bannerAd!.load();
+  //     // if (bannerAd.isLoaded) _bannerController.show();
+  //   }
+  // }
 
   _fetchRecipes() async {
     RecipePage? recipePage;
@@ -218,47 +219,43 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
   _body() {
     return _isFetching
         ? ShimmerLoading(type: ShimmerType.Recipes)
-        : Stack(
-            children: [
-              SmartRefresher(
-                key: _refreshKey,
-                controller: _refreshController,
-                enablePullUp: true,
-                physics: BouncingScrollPhysics(),
-                footer: ClassicFooter(loadStyle: LoadStyle.ShowWhenLoading),
-                onRefresh: _onRefresh,
-                onLoading: _onLoading,
-                child: _recipes.isNotEmpty
-                    ? ListView.builder(
-                        key: _contentKey,
-                        padding:
-                            EdgeInsets.only(top: 10, bottom: _paddingBottom),
-                        itemBuilder: (ctx, index) => HomeRecipeItem(
-                          recipe: _recipes[index],
-                        ),
-                        itemCount: _recipes.length,
-                      )
-                    : Center(
-                        child: Text(
-                          "no_recipes_to_display".tr(),
-                          style: GoogleFonts.pacifico(fontSize: 17),
-                        ),
-                      ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: _buildBannerAd(),
-              ),
-            ],
+        : SmartRefresher(
+            key: _refreshKey,
+            controller: _refreshController,
+            enablePullUp: true,
+            physics: BouncingScrollPhysics(),
+            footer: ClassicFooter(loadStyle: LoadStyle.ShowWhenLoading),
+            onRefresh: _onRefresh,
+            onLoading: _onLoading,
+            child: _recipes.isNotEmpty
+                ? GridView.builder(
+                    key: _contentKey,
+                    padding: EdgeInsets.only(top: 10, bottom: _paddingBottom),
+                    itemBuilder: (ctx, index) => HomeRecipeItem(
+                      recipe: _recipes[index],
+                    ),
+                    itemCount: _recipes.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 0.68,
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10),
+                  )
+                : Center(
+                    child: Text(
+                      "no_recipes_to_display".tr(),
+                      style: GoogleFonts.pacifico(fontSize: 17),
+                    ),
+                  ),
           );
   }
 
-  _buildBannerAd() {
-    return Container(
-      alignment: Alignment.center,
-      width: bannerAd!.size.width.toDouble(),
-      height: bannerAd!.size.height.toDouble(),
-      child: AdWidget(ad: bannerAd!),
-    );
-  }
+// _buildBannerAd() {
+//   return Container(
+//     alignment: Alignment.center,
+//     width: bannerAd!.size.width.toDouble(),
+//     height: bannerAd!.size.height.toDouble(),
+//     child: AdWidget(ad: bannerAd!),
+//   );
+// }
 }

@@ -48,6 +48,9 @@ class _IntroScreenState extends State<IntroScreen> {
 
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      // AuthProvider authpro = Provider.of<AuthProvider>(context, listen: false);
+    });
     application = Provider.of<AppProvider>(context, listen: false);
 
     SystemChannels.textInput.invokeMethod('TextInput.hide');
@@ -73,104 +76,86 @@ class _IntroScreenState extends State<IntroScreen> {
   Widget build(BuildContext context) {
     var queryData = MediaQuery.of(context);
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 0,
+      ),
       body: _body(queryData),
     );
   }
 
   _buildBackgroundImage() {
     return Container(
-      child: Stack(children: [
-        Opacity(
-          opacity: 0.1,
-          child: Image.asset(
-            'assets/images/logo.jpg',
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.cover,
-          ),
-        ),
-      ]),
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        image: DecorationImage(image: AssetImage('assets/images/img.png')),
+      ),
     );
   }
 
   _body(MediaQueryData queryData) {
-    return SingleChildScrollView(
-      child: Container(
-        height: queryData.size.height,
-        child: Stack(
-          children: <Widget>[
-            _buildBackgroundImage(),
-            _buildLoginScreen(queryData),
-          ],
-        ),
-      ),
+    return Stack(
+      children: <Widget>[
+        _buildBackgroundImage(),
+        _buildLoginScreen(queryData),
+      ],
     );
   }
 
   _buildLoginScreen(MediaQueryData queryData) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: TextButton(
-              onPressed: () => Navigator.pushNamedAndRemoveUntil(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            RoundedBorderButton(
+              title: 'sign_in'.tr().toUpperCase(),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+              },
+            ),
+            RoundedBorderButton(
+              title: 'skip'.tr().toUpperCase(),
+              onTap: () => Navigator.pushNamedAndRemoveUntil(
                   context, TabsScreen.routeName, (context) => false),
-              child: Text(
-                'skip'.tr().toUpperCase(),
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ),
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
             ),
+          ],
+        ),
+        Spacer(),
+        Container(
+          // padding: EdgeInsets.symmetric(horizontal: queryData.size.width / 8),
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          decoration: BoxDecoration(
+              color: Colors.red,
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0.0, 0.1],
+                colors: [
+                  Theme.of(context).backgroundColor.withOpacity(0.1),
+                  Theme.of(context).backgroundColor,
+                ],
+              )),
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              _getStartedText(),
+              // SizedBox(height: 10),
+              // _buildLanguagesIcons(),
+              SizedBox(height: 18),
+              AuthCustomButton(
+                  onTap: _navigateToRegisterScreen, title: 'sign_up'.tr()),
+              SizedBox(height: 14),
+              _buildSocialButtons(),
+              SizedBox(height: 14),
+            ],
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: queryData.size.width / 8),
-            child: Column(
-              children: [
-                SizedBox(height: 40),
-                GestureDetector(
-                  onTap: () => _navigateToRegisterScreen(),
-                  child: _getStartedText(),
-                ),
-                SizedBox(height: 20),
-                _buildLanguagesIcons(),
-                SizedBox(height: 20),
-                AuthCustomButton(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginScreen()));
-                    },
-                    title: 'sign_in'.tr()),
-                SizedBox(height: 14),
-                AuthCustomButton(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RegisterScreen()));
-                    },
-                    title: 'sign_up'.tr()),
-                SizedBox(height: 14),
-                _buildSocialButtons(),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -378,6 +363,41 @@ class _IntroScreenState extends State<IntroScreen> {
     } catch (e) {
       await loadingDialog(context).hide();
     }
+  }
+}
+
+class RoundedBorderButton extends StatelessWidget {
+  const RoundedBorderButton({
+    super.key,
+    required this.title,
+    this.onTap,
+  });
+
+  final String title;
+  final dynamic onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 24),
+      child: TextButton(
+        onPressed: onTap,
+        child: Text(
+          title,
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
+        style: TextButton.styleFrom(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              width: 1,
+              color: Theme.of(context).primaryColor,
+            ),
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+      ),
+    );
   }
 }
 

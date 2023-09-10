@@ -26,11 +26,11 @@ class RecipeProvider extends ChangeNotifier {
   List<Recipe> get mostCollectedRecipes => _mostCollectedRecipes;
 
   Future fetchOrDisplayRecentRecipes() async {
-    if (_recentRecipes.isNotEmpty) {
-      return;
-    } else {
+    // if (_recentRecipes.isNotEmpty) {
+    //   return;
+    // } else {
       fetchRecentRecipes();
-    }
+    // }
   }
 
   Future fetchOrDisplayMostCollectedRecipes() async {
@@ -50,12 +50,13 @@ class RecipeProvider extends ChangeNotifier {
       String lang = EasyLocalization.of(navigatorKey.currentContext!)!
           .locale
           .languageCode;
-      print(lang);
+      print(AppConfig.URL +
+          '/api/fetchRecentRecipes/$lang/${AppConfig.PerPage}?page=$_page');
       var response = await http.get(Uri.parse(AppConfig.URL +
           '/api/fetchRecentRecipes/$lang/${AppConfig.PerPage}?page=$_page'));
       RecipePage categoryPage = recipePageFromJson(response.body);
       if (refresh) _recentRecipes.clear();
-      _recentRecipes.addAll(categoryPage.data!);
+      if(categoryPage.data != null) _recentRecipes.addAll(categoryPage.data!);
       _recentStatus = RecentRecipeStatus.Done;
       print('MK: recent recipes:  ${response.body}');
       notifyListeners();

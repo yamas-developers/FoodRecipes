@@ -157,15 +157,15 @@ Future showCustomDialogWithTitle(
   );
 }
 
-buildBackButton(context) {
+buildBackButton(context, {EdgeInsetsGeometry? padding, dynamic onTap}) {
   return Padding(
-    padding: const EdgeInsets.fromLTRB(15, 40, 15, 0),
+    padding: padding ?? const EdgeInsets.fromLTRB(15, 40, 15, 0),
     child: GestureDetector(
-      onTap: () => Navigator.pop(context),
+      onTap: onTap ?? () => Navigator.pop(context),
       child: CircleAvatar(
         radius: 18,
         backgroundColor: Colors.white,
-        child: Icon(Icons.keyboard_backspace, color: Colors.black, size: 30),
+        child: Icon(Icons.arrow_back_ios_new, color: Colors.black, size: 30),
       ),
     ),
   );

@@ -180,19 +180,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Text(
                     getGreeting(),
-                    style: GoogleFonts.ubuntu(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .copyWith(fontSize: 22, fontWeight: FontWeight.w500),
                   ),
                   SizedBox(height: 5),
                   if (auth.user?.name != null)
                     Text(
                       auth.user != null ? auth.user!.name! : 'Guest',
-                      style: GoogleFonts.ubuntu(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                 ],
               ),
@@ -278,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
               : _recipes.first
           : null;
       return SearchTextfield(
-        hintText: '${'search_for'.tr()} ${recipe?.name??'recipes'}',
+        hintText: '${'search_for'.tr()} ${recipe?.name ?? 'recipes'}',
         controller: _searchKeywordController,
         suffixIconOnTap: () {
           if (_searchKeywordController.text.isNotEmpty) {
@@ -386,7 +386,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
   _buildRecentRecipesList() {
     return Consumer<RecipeProvider>(
       builder: (context, recipe, child) {
@@ -395,7 +394,7 @@ class _HomeScreenState extends State<HomeScreen> {
         } else {
           List<Recipe> _recipes = recipe.recentRecipes;
           return _recipes.isNotEmpty
-              ? ListView.builder(
+              ? GridView.builder(
                   key: _contentKey,
                   padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
                   shrinkWrap: true,
@@ -406,13 +405,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: _recipes.length > AppConfig.PerPage
                       ? AppConfig.PerPage
                       : _recipes.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 0.68,
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10),
                 )
               : Container(
                   height: 200,
                   child: Center(
                     child: Text(
                       'no_recent_recipes'.tr(),
-                      style: GoogleFonts.pacifico(fontSize: 15),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
                     ),
                   ),
                 );
@@ -472,7 +479,7 @@ class CategoryHorizontalList extends StatefulWidget {
 }
 
 class _CategoryHorizontalListState extends State<CategoryHorizontalList> {
-  int foodIndex = 0;
+  // int foodIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -492,13 +499,11 @@ class _CategoryHorizontalListState extends State<CategoryHorizontalList> {
                     itemCount:
                         _categories.length < 10 ? _categories.length : 10,
                     scrollDirection: Axis.horizontal,
+                    physics: BouncingScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) {
                       Category category = _categories[index];
                       return GestureDetector(
                         onTap: () {
-                          setState(() {
-                            foodIndex = index;
-                          });
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (BuildContext context) {
@@ -514,13 +519,9 @@ class _CategoryHorizontalListState extends State<CategoryHorizontalList> {
                           margin: EdgeInsets.only(right: 7),
                           decoration: BoxDecoration(
                               border: Border.all(
-                                  color: foodIndex == index
-                                      ? Theme.of(context).cardColor
-                                      : Theme.of(context).highlightColor),
+                                  color: Theme.of(context).highlightColor),
                               borderRadius: BorderRadius.circular(10),
-                              color: foodIndex == index
-                                  ? Theme.of(context).cardColor
-                                  : Theme.of(context).scaffoldBackgroundColor),
+                              color: Theme.of(context).scaffoldBackgroundColor),
                           padding: EdgeInsets.only(
                               bottom: 15, top: 10, right: 8, left: 8),
                           constraints: BoxConstraints(minWidth: 90),

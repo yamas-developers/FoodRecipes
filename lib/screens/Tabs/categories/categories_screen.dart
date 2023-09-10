@@ -12,6 +12,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 import '../../../Components/entry_field.dart';
 import '../../../Theme/colors.dart';
+import '../../../widgets/search_text_field.dart';
 import '../home/search/search_screen.dart';
 
 class CategoriesScreen extends StatefulWidget {
@@ -60,6 +61,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       });
   }
 
+  TextEditingController _searchKeywordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -91,62 +94,51 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         padding: const EdgeInsets.only(left: 8.0),
         child: Text(
           'categories'.tr(),
-          style: TextStyle(
-              color: Colors.black, fontFamily: 'Brandon', fontSize: 24),
+          style: Theme.of(context).textTheme.bodyText1!
+              .copyWith(fontSize: 32, fontWeight: FontWeight.w700),
         ),
       ),
       bottom: PreferredSize(
         preferredSize: Size.fromHeight(65),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (ctx) => SearchScreen(
-                  keyword: '',
-                ),
-              ),
-            );
-          },
-          child: Container(
-            margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-            decoration: BoxDecoration(
-                color: Theme.of(context).shadowColor,
-                borderRadius: BorderRadius.circular(30),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.15),
-                    spreadRadius: 1,
-                    blurRadius: 3,
-                    offset: Offset(0, 3),
-                  )
-                ]),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.search,
-                  color: fontSecondary,
-                  size: 24,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                    child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
-                  child: Text(
-                    'search_recipes'.tr(),
-                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                          color: fontSecondary,
-                        ),
+        child: true
+            ? SearchTextfield(
+                hintText: 'search_recipes'.tr(),
+                controller: _searchKeywordController,
+                suffixIconOnTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (ctx) => SearchScreen(
+                        keyword: _searchKeywordController.text,
+                      ),
+                    ),
+                  );
+                },
+                onChanged: null,
+              )
+            : Row(
+                children: [
+                  Icon(
+                    Icons.search,
+                    color: fontSecondary,
+                    size: 24,
                   ),
-                )),
-              ],
-            ),
-          ),
-        ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                      child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 6),
+                    child: Text(
+                      'search_recipes'.tr(),
+                      style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                            color: fontSecondary,
+                          ),
+                    ),
+                  )),
+                ],
+              ),
       ),
     );
   }

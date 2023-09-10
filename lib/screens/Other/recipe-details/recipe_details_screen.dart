@@ -66,7 +66,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
   AuthProvider? _authProvider;
   AppProvider? _appProvider;
 
-  BannerAd? _bannerAd;
+  // BannerAd? _bannerAd;
   InterstitialAd? _interstitialAd;
 
   // final bannerController = BannerAdController();
@@ -91,49 +91,49 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
 
     ApiRepository.updateRecipeViews(widget.recipe!.id!);
 
-    _loadAndShowAds();
+    // _loadAndShowAds();
   }
 
   void dispose() {
     _commentTextController!.dispose();
     _interstitialAd?.dispose();
-    _bannerAd!.dispose();
+    // _bannerAd!.dispose();
     super.dispose();
   }
 
-  _loadAndShowAds() async {
-    if (AppConfig.AdmobEnabled) {
-      if (_appProvider!.recipeClickCount == 3) {
-        _appProvider!.resetAdClickCount();
-
-        await InterstitialAd.load(
-          adUnitId: 'ca-app-pub-3940256099942544/4411468910',
-          request: AdRequest(),
-          adLoadCallback: InterstitialAdLoadCallback(
-            onAdLoaded: (InterstitialAd ad) {
-              // Keep a reference to the ad so you can show it later.
-              setState(() {
-                _interstitialAd = ad;
-              });
-              ad.show();
-            },
-            onAdFailedToLoad: (LoadAdError error) {
-              print('InterstitialAd failed to load: $error');
-            },
-          ),
-        );
-      }
-
-      _bannerAd = BannerAd(
-        adUnitId: AdmobConfig.bannerAdUnitId,
-        size: AdSize(width: 300, height: 50),
-        request: AdRequest(),
-        listener: BannerAdListener(),
-      );
-
-      await _bannerAd!.load();
-    }
-  }
+  // _loadAndShowAds() async {
+  //   if (AppConfig.AdmobEnabled) {
+  //     if (_appProvider!.recipeClickCount == 3) {
+  //       _appProvider!.resetAdClickCount();
+  //
+  //       await InterstitialAd.load(
+  //         adUnitId: 'ca-app-pub-3940256099942544/4411468910',
+  //         request: AdRequest(),
+  //         adLoadCallback: InterstitialAdLoadCallback(
+  //           onAdLoaded: (InterstitialAd ad) {
+  //             // Keep a reference to the ad so you can show it later.
+  //             setState(() {
+  //               _interstitialAd = ad;
+  //             });
+  //             ad.show();
+  //           },
+  //           onAdFailedToLoad: (LoadAdError error) {
+  //             print('InterstitialAd failed to load: $error');
+  //           },
+  //         ),
+  //       );
+  //     }
+  //
+  //     _bannerAd = BannerAd(
+  //       adUnitId: AdmobConfig.bannerAdUnitId,
+  //       size: AdSize(width: 300, height: 50),
+  //       request: AdRequest(),
+  //       listener: BannerAdListener(),
+  //     );
+  //
+  //     await _bannerAd!.load();
+  //   }
+  // }
 
   _getIngredients() {
     LineSplitter ls = new LineSplitter();
@@ -321,7 +321,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
             Stack(
               children: <Widget>[
                 _buildRecipeImage(),
-                _buildBackButton(),
+                buildBackButton(context),
                 _buildSocialButtons(),
                 _buildRecipeDetailsContainer(),
               ],
@@ -349,7 +349,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
     );
   }
 
-  _buildBackButton() {
+  _buildBack() {
     return Row(
       children: <Widget>[
         Container(
@@ -454,8 +454,8 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
           _buildRatingBar(),
           _buildSectionTitle(context, 'ingredient'.tr()),
           _buildIngredientsList(),
-          SizedBox(height: 10),
-          _buildBannerAd(),
+          // SizedBox(height: 10),
+          // _buildBannerAd(),
           SizedBox(height: 10),
           _buildSectionTitle(context, 'steps'.tr()),
           _buildStepsList(),
@@ -753,16 +753,16 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
     );
   }
 
-  _buildBannerAd() {
-    return _bannerAd != null
-        ? Container(
-            alignment: Alignment.center,
-            width: _bannerAd?.size.width.toDouble(),
-            height: _bannerAd?.size.height.toDouble(),
-            child: AdWidget(ad: _bannerAd!),
-          )
-        : Container();
-  }
+  // _buildBannerAd() {
+  //   return _bannerAd != null
+  //       ? Container(
+  //           alignment: Alignment.center,
+  //           width: _bannerAd?.size.width.toDouble(),
+  //           height: _bannerAd?.size.height.toDouble(),
+  //           child: AdWidget(ad: _bannerAd!),
+  //         )
+  //       : Container();
+  // }
 
   _buildStepsList() {
     return MediaQuery.removePadding(

@@ -10,7 +10,7 @@ class AppConfig {
 
   // Host URL (Replace it with your host)
   // Do not add "/" at the end
-  static const URL = 'https://flutterfoodrecipes.code-blow.com';
+  static const URL = 'https://mix.nex-nova.com';
   // static const URL = 'http://10.0.2.2:8000';
   // static const URL = 'http://127.0.0.1:8000';
 

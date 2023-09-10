@@ -16,8 +16,12 @@ import 'package:food_recipes_app/widgets/progress_dialog.dart';
 import 'package:image/image.dart' as Img;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
+import '../../../Components/textField.dart';
+import '../../../providers/auth_provider.dart';
 import '../../../utils/utils.dart';
+import '../../Tabs/tabs_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = '/register';
@@ -35,6 +39,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confPasswordController = TextEditingController();
+
+  bool passwordMode = false;
 
   // Initializing the image picker
   final _picker = ImagePicker();
@@ -91,28 +97,60 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     var queryData = MediaQuery.of(context);
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 0,
+      ),
       body: _body(queryData),
     );
   }
 
   _body(MediaQueryData queryData) {
-    return Stack(
-      children: <Widget>[
-        _buildBackgroundImage(),
-        SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              buildBackButton(context),
-              _buildImageCard(),
-              _buildRegistrationFields(queryData),
-            ],
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 15),
+          buildBackButton(context, padding: EdgeInsets.only(left: 0),
+              onTap: () {
+            if (passwordMode) {
+              setState(() {
+                passwordMode = false;
+              });
+            } else {
+              Navigator.pop(context);
+            }
+          }),
+          SizedBox(height: 15),
+          if (!passwordMode) ...[
+            Text(
+              'hi_welcome'.tr(),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(fontSize: 24, fontWeight: FontWeight.w700),
+            ),
+            SizedBox(height: 15),
+            Text(
+              'we_cant_wait'.tr(),
+              style:
+                  Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 18),
+            )
+          ],
+          SizedBox(
+            height: 65,
           ),
-        ),
-      ],
+          // Spacer(),
+
+          // _buildImageCard(),
+          Expanded(
+            child: _buildRegistrationFields(queryData),
+          ),
+          SizedBox(
+            height: 18,
+          )
+        ],
+      ),
     );
   }
 
@@ -172,53 +210,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
   _buildRegistrationFields(MediaQueryData queryData) {
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: queryData.size.width / 8),
-          child: Center(
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CustomTextField(
-                    text: 'name'.tr(),
-                    controller: _nameController,
-                    icon: Icon(Icons.portrait,
-                        color: Theme.of(context).primaryColor),
-                  ),
+        Center(
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (!passwordMode) ...[
+                  EntryField('name'.tr(), 'name'.tr(), false, _nameController),
                   SizedBox(height: 10),
-                  CustomTextField(
-                    text: 'email'.tr(),
-                    controller: _emailController,
-                    icon: Icon(Icons.mail_outline_rounded,
-                        color: Theme.of(context).primaryColor),
-                  ),
-                  SizedBox(height: 10),
-                  CustomTextField(
-                    obscure: true,
-                    text: 'password'.tr(),
-                    controller: _passwordController,
-                    icon: Icon(Icons.lock_open,
-                        color: Theme.of(context).primaryColor),
-                  ),
-                  SizedBox(height: 10),
-                  CustomTextField(
-                    obscure: true,
-                    text: 'confirm_password'.tr(),
-                    controller: _confPasswordController,
-                    icon: Icon(Icons.lock_outline,
-                        color: Theme.of(context).primaryColor),
-                  ),
-                  SizedBox(height: 15),
+                  EntryField(
+                      'email'.tr(), 'email'.tr(), false, _emailController),
+                  SizedBox(height: 10)
                 ],
-              ),
+                if (passwordMode) ...[
+                  EntryField('password'.tr(), 'password'.tr(), false,
+                      _passwordController),
+                  SizedBox(height: 10),
+                  EntryField('confirm_password'.tr(), 'confirm_password'.tr(),
+                      false, _confPasswordController)
+                ],
+                SizedBox(height: 15),
+              ],
             ),
           ),
         ),
-        _buildCheckboxTile(),
-        SizedBox(height: 10),
-        DefaultCustomButton(text: 'sign_up'.tr(), onPressed: _register),
+        Spacer(),
+        if (passwordMode) ...[_buildCheckboxTile(), SizedBox(height: 10)],
+        DefaultCustomButton(
+            text: passwordMode ? 'explore'.tr() : 'continue'.tr(),
+            onPressed: _register),
       ],
     );
   }
@@ -229,7 +251,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         borderRadius: BorderRadius.circular(30),
         color: Colors.white,
       ),
-      margin: EdgeInsets.symmetric(horizontal: 50),
+      margin: EdgeInsets.symmetric(horizontal: 0),
       child: CheckboxListTile(
           controlAffinity: ListTileControlAffinity.leading,
           value: _agree,
@@ -300,6 +322,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   _register() async {
+    if (!passwordMode) {
+      if (_nameController.text.isEmpty) {
+        Fluttertoast.showToast(
+          msg: 'invalid_name'.tr(),
+          toastLength: Toast.LENGTH_SHORT,
+        );
+      } else if (!EmailValidator.validate(_emailController.value.text)) {
+        Fluttertoast.showToast(
+          msg: 'invalid_email'.tr(),
+          toastLength: Toast.LENGTH_SHORT,
+        );
+      } else {
+        setState(() {
+          passwordMode = true;
+        });
+      }
+      return;
+    }
+
     if (formKey.currentState!.validate()) {
       if (_agree) {
         if (EmailValidator.validate(_emailController.value.text)) {
@@ -309,40 +350,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Fluttertoast.showToast(msg: 'the_password_cannot_be_less'.tr());
               await loadingDialog(context).hide();
               return;
+            } else if (!_validatePassword(_passwordController.text)) {
+              Fluttertoast.showToast(msg: 'password_not_proper'.tr());
             }
+            // return;
             await loadingDialog(context).show();
-            if (null == _tmpFile) {
-              print('No Image Provided');
-            } else {
-              setState(() {
-                _fileName = _tmpFile!.path.split('/').last;
-              });
-            }
-            if (_base64Image != null && _fileName != null) {
-              await ApiRepository.registerUser(
-                context,
-                _nameController.value.text,
-                _emailController.value.text,
-                _passwordController.value.text,
-                _tmpFile,
-                _fileName,
-              ).then((value) async {
-                await loadingDialog(context).hide();
-                // if (value != null) Navigator.pop(context);
-              });
-            } else {
-              await ApiRepository.registerUser(
-                context,
-                _nameController.value.text,
-                _emailController.value.text,
-                _passwordController.value.text,
-                null,
-                null,
-              ).then((value) async {
-                await loadingDialog(context).hide();
-                // if (value != null) Navigator.pop(context);
-              });
-            }
+            // if (null == _tmpFile) {
+            //   print('No Image Provided');
+            // } else {
+            //   setState(() {
+            //     _fileName = _tmpFile!.path.split('/').last;
+            //   });
+            // }
+            // if (_base64Image != null && _fileName != null) {
+            //   await ApiRepository.registerUser(
+            //     context,
+            //     _nameController.value.text,
+            //     _emailController.value.text,
+            //     _passwordController.value.text,
+            //     _tmpFile,
+            //     _fileName,
+            //   ).then((value) async {
+            //     await loadingDialog(context).hide();
+            //     // if (value != null) Navigator.pop(context);
+            //   });
+            // } else {
+            await ApiRepository.registerUser(
+              context,
+              _nameController.value.text,
+              _emailController.value.text,
+              _passwordController.value.text,
+              null,
+              null,
+            ).then((value) async {
+              await loadingDialog(context).hide();
+              if (value != null) {
+                bool res =
+                    await Provider.of<AuthProvider>(context, listen: false)
+                        .register(value);
+                if (res) {
+                  Navigator.of(context)
+                      .pushReplacementNamed(TabsScreen.routeName);
+                }
+              }
+            });
+            // }
             FocusScope.of(context).unfocus();
             // Navigator.pop(context);
           } else {
@@ -364,5 +416,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         );
       }
     }
+  }
+
+  bool _validatePassword(String password) {
+    // Define a regular expression pattern for the password validation.
+    final pattern = r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$';
+    final regExp = RegExp(pattern);
+    return regExp.hasMatch(password);
   }
 }

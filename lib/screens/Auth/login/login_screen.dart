@@ -90,12 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return SingleChildScrollView(
       child: Container(
         height: queryData.size.height,
-        child: Stack(
-          children: <Widget>[
-            _buildBackgroundImage(),
-            _buildLoginScreen(queryData),
-          ],
-        ),
+        child: _buildLoginScreen(queryData),
       ),
     );
   }

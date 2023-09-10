@@ -26,20 +26,20 @@ class _SearchScreenState extends State<SearchScreen>
   void initState() {
     super.initState();
 
-    _searchKeywordController.text = widget.keyword!;
+    _searchKeywordController.text = widget.keyword ?? '';
 
     _fetchRecipes();
   }
 
   _fetchRecipes() async {
-    if (widget.keyword != _searchKeywordController.text) {
-      FocusScope.of(context).unfocus();
-      FocusScope.of(context).requestFocus(FocusNode());
-    }
+    FocusScope.of(context).unfocus();
+    FocusScope.of(context).requestFocus(FocusNode());
+    // if (widget.keyword != _searchKeywordController.text) {
+    // }
     setState(() {
       _isLoading = true;
     });
-    if (widget.keyword!.isNotEmpty) {
+    if (_searchKeywordController.text.isNotEmpty) {
       await ApiRepository.fetchSearchedRecipes(_searchKeywordController.text)
           .then((recipes) {
         if (recipes.isNotEmpty) {
@@ -73,10 +73,14 @@ class _SearchScreenState extends State<SearchScreen>
         systemOverlayStyle: SystemUiOverlayStyle.light,
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
-        centerTitle: true,
-        title: Text(
-          'search'.tr(),
-          style: TextStyle(color: Colors.black, fontFamily: 'Brandon'),
+        centerTitle: false,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Text(
+            'search'.tr(),
+            style: Theme.of(context).textTheme.bodyText1!
+                .copyWith(fontSize: 32, fontWeight: FontWeight.w700),
+          ),
         ),
       ),
       body: Column(
@@ -97,15 +101,22 @@ class _SearchScreenState extends State<SearchScreen>
     );
   }
 
-  _buildSearchResultList() {
+  Widget _buildSearchResultList() {
     if (!_isLoading) {
       if (_searchKeywordController.text.isNotEmpty) {
         if (_recipes.isNotEmpty) {
           return Expanded(
-            child: ListView.builder(
+            // height: 400,
+            child: GridView.builder(
               shrinkWrap: true,
+              physics: BouncingScrollPhysics(),
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
               itemCount: _recipes.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 0.68,
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10),
               itemBuilder: (context, index) =>
                   HomeRecipeItem(recipe: _recipes[index]),
             ),
@@ -124,8 +135,8 @@ class _SearchScreenState extends State<SearchScreen>
     return Expanded(
       child: Center(
         child: Text(
-          'start_looking_for_users'.tr(),
-          style: TextStyle(fontFamily: 'Brandon'),
+          'start_looking_for_recipes'.tr(),
+          style: TextStyle(fontSize: 18),
         ),
       ),
     );
