@@ -100,16 +100,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         : null,
                     child: Column(
                       children: [
-                        _buildUserImage(auth),
-                        SizedBox(height: 10),
+                        // _buildUserImage(auth),
+                        Row(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 22),
+                              child: Text(
+                                'account'.tr(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                        fontSize: 32,
+                                        fontWeight: FontWeight.w700),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 30),
                         _buildUserName(auth),
-                        SizedBox(height: 20),
+                        SizedBox(height: 0),
                       ],
                     ),
                   ),
-                  auth.user != null
-                      ? _buildFollowingFollowers(auth)
-                      : Container(),
+                  // auth.user != null
+                  //     ? _buildFollowingFollowers(auth)
+                  //     : Container(),
                 ],
               ),
             ),
@@ -170,27 +187,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   _buildUserName(AuthProvider auth) {
     return Text(auth.user != null ? auth.user!.name! : 'Guest',
-        style: GoogleFonts.ubuntu(fontSize: 20));
+        style: Theme.of(context)
+            .textTheme
+            .bodyText1!
+            .copyWith(fontSize: 26, fontWeight: FontWeight.w700));
   }
 
-  _buildFollowingFollowers(AuthProvider auth) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        _buildButtonCount(
-          index: 1,
-          count: auth.followingUsers.length,
-          text: 'following'.tr(),
-        ),
-        _buildButtonCount(
-          index: 0,
-          count: auth.followerUsers.length,
-          text: 'followers'.tr(),
-        ),
-      ],
-    );
-  }
+  // _buildFollowingFollowers(AuthProvider auth) {
+  //   return Row(
+  //     crossAxisAlignment: CrossAxisAlignment.center,
+  //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //     children: [
+  //       _buildButtonCount(
+  //         index: 1,
+  //         count: auth.followingUsers.length,
+  //         text: 'following'.tr(),
+  //       ),
+  //       _buildButtonCount(
+  //         index: 0,
+  //         count: auth.followerUsers.length,
+  //         text: 'followers'.tr(),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   _buildButtonCount({int? index, String? text, int? count}) {
     return GestureDetector(

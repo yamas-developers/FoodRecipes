@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:food_recipes_app/providers/auth_provider.dart';
+import 'package:food_recipes_app/screens/Auth/intro_screen.dart';
 import 'package:food_recipes_app/screens/Auth/login/login_screen.dart';
 import 'package:food_recipes_app/services/api_repository.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -94,7 +95,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
 
   _navigateToLoginScreen() {
     Navigator.of(context).pushNamedAndRemoveUntil(
-      LoginScreen.routeName,
+      IntroScreen.routeName,
       (Route<dynamic> route) => false,
     );
   }

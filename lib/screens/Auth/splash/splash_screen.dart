@@ -164,6 +164,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _body() {
-    return _isRetrieving ? _loadingLayout(context) : IntroScreen();
+    return _isRetrieving ? _loadingLayout(context) : Provider.of<AuthProvider>(context, listen: false).isLoggedIn ? TabsScreen() : IntroScreen();
   }
 }

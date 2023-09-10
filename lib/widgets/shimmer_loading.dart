@@ -103,19 +103,25 @@ class ShimmerLoading extends StatelessWidget {
       child: Shimmer.fromColors(
         baseColor: (Colors.grey[300])!,
         highlightColor: (Colors.grey[100])!,
-        child: ListView.builder(
+        child: GridView.builder(
             itemCount: 10,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: 0.68,
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10),
             itemBuilder: (context, index) {
-              return Row(
+              return Column(
                 children: [
                   _container(
-                    80,
-                    80,
+                    150,
+                    150,
                     radius: 15,
                     margin: EdgeInsets.only(top: 10),
                   ),
+                  SizedBox(height: 20,),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -132,17 +138,17 @@ class ShimmerLoading extends StatelessWidget {
                           vertical: 6,
                         ),
                       ),
-                      Row(
-                        children: [
-                          _container(
-                            15,
-                            15,
-                            radius: 15,
-                            margin: EdgeInsets.symmetric(horizontal: 15),
-                          ),
-                          _container(100, 15),
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     _container(
+                      //       15,
+                      //       15,
+                      //       radius: 15,
+                      //       margin: EdgeInsets.symmetric(horizontal: 15),
+                      //     ),
+                      //     _container(100, 15),
+                      //   ],
+                      // ),
                     ],
                   ),
                 ],

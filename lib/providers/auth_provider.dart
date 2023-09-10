@@ -16,6 +16,9 @@ class AuthProvider extends ChangeNotifier {
   bool _isLoggedIn = false;
   AppUser? _user;
   String? _token;
+
+  bool get isLoggedIn => _isLoggedIn;
+
   List<AppUser> _followingUsers = [];
   List<AppUser> _followerUsers = [];
   TextEditingController _registerEmailController = TextEditingController();
@@ -27,10 +30,22 @@ class AuthProvider extends ChangeNotifier {
   }
 
   bool get authenticated => _isLoggedIn;
+
   AppUser? get user => _user != AppUser() ? _user : AppUser();
 
   List<AppUser> get followingUsers => _followingUsers;
+
   List<AppUser> get followerUsers => _followerUsers;
+
+  Future<bool> register(Map? responseJson) async {
+    String? token = responseJson?['token'];
+    if (responseJson == null || token == null) {
+      _isLoggedIn = false;
+    } else {
+      await this.tryToken(token: token);
+    }
+    return this._isLoggedIn;
+  }
 
   Future<bool> login({Map? creds}) async {
     print(creds);

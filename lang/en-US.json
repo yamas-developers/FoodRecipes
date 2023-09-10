@@ -42,8 +42,7 @@
   "website_url": "Website URL",
   "youtube_url": "Youtube URL",
   "edit_profile": "Edit Profile",
-  "name": "Name",
-  "email": "Email",
+
   "password": "Password",
   "upload_new_image": "Upload new image",
   "delete_image": "Delete Image",
@@ -149,11 +148,22 @@
   "cancel": "Cancel",
   "account_deletion_confirmation": "Are you sure you want to delete your account? \nif you delete your account you will permanently lose your profile and recipes.",
 
+  "name": "Full Name",
+  "email": "Email Address",
   "get_started": "Get Started with Food Recipes",
   "good_evening": "Good Evening",
   "good_afternoon": "Good Afternoon",
   "welocme_back": "Welcome Back!",
   "search_recipes": "Search Recipes",
   "choose_types_food": "Choose Types of Food",
-  "search_for": "Search for"
+  "search_for": "Search for",
+  "hi_welcome": "Hi, Welcome Dear",
+  "we_cant_wait": "We can't wait to see what you can\ncreate today, Good Luck!",
+  "continue": "Continue",
+  "explore": "Discover Now",
+  "password_not_proper": "Password should contain an uppercase letter, number and a special character",
+  "invalid_name": "Invalid Name!",
+  "account": "Account",
+  "favorites": "Favorites",
+  "":""
 }

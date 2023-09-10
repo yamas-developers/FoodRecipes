@@ -33,7 +33,7 @@ class ApiRepository {
   static const headers = {'Accept': "application/json"};
 
   // Register a new user in the database
-  static Future<AppUser> registerUser(BuildContext context, String name,
+  static Future<Map?> registerUser(BuildContext context, String name,
       String email, String password, File? image, String? imagename) async {
     try {
       var request = http.MultipartRequest('POST', Uri.parse(API + '/users'));
@@ -82,12 +82,12 @@ class ApiRepository {
         Fluttertoast.showToast(msg: 'created_account'.tr());
       }
 
-      AppUser user = AppUser.fromJson(responseJson['user']);
-      if (user.id != null) Navigator.pop(context);
-      return user;
+      // AppUser user = AppUser.fromJson(responseJson['user']);
+      // if (user.id != null) Navigator.pop(context);
+      return responseJson;
     } catch (e) {
       print(e);
-      return AppUser();
+      return null;
     }
   }
 

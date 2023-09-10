@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:food_recipes_app/screens/Tabs/home/search/search_screen.dart';
 import 'package:food_recipes_app/screens/tabs/categories/categories_screen.dart';
 import 'package:food_recipes_app/screens/tabs/cuisine/cuisine_screen.dart';
 import 'package:food_recipes_app/screens/tabs/home/home_screen.dart';
 import 'package:food_recipes_app/screens/tabs/recipe-add/recipe_add_screen.dart';
 
+import '../Other/recipe_favorite_screen.dart';
 import '../tabs/settings/settings_screen.dart';
 
 class TabsScreen extends StatefulWidget {
@@ -40,48 +42,49 @@ class _TabsScreenState extends State<TabsScreen> {
       type: BottomNavigationBarType.fixed,
       items: [
         BottomNavigationBarItem(
-          icon: Image.asset('assets/images/ic_home.png', scale: 2.2),
-          activeIcon: Image.asset(
-            'assets/images/ic_home.png',
-            scale: 2.2,
-            color: Theme.of(context).primaryColor,
-          ),
+          icon: Icon(Icons.home_outlined, size: 30,),
+          // activeIcon: Image.asset(
+          //   'assets/images/ic_home.png',
+          //   scale: 2.2,
+          //   color: Theme.of(context).primaryColor,
+          // ),
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Image.asset('assets/images/ic_category.png', scale: 2.2),
-          activeIcon: Image.asset(
-            'assets/images/ic_category.png',
-            scale: 2.2,
-            color: Theme.of(context).primaryColor,
-          ),
+          icon: Icon(Icons.favorite_border, size: 30,),
+          // activeIcon: Image.asset(
+          //   'assets/images/ic_add.png',
+          //   scale: 2.2,
+          //   color: Theme.of(context).primaryColor,
+          // ),
+          label: 'Favorite',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.category_outlined, size: 30,),
+          // activeIcon: Image.asset(
+          //   'assets/images/ic_category.png',
+          //   scale: 2.2,
+          //   color: Theme.of(context).primaryColor,
+          // ),
           label: 'Categories',
         ),
-        // BottomNavigationBarItem(
-        //   icon: Image.asset('assets/images/ic_add.png', scale: 2.2),
-        //   activeIcon: Image.asset(
-        //     'assets/images/ic_add.png',
-        //     scale: 2.2,
-        //     color: Theme.of(context).primaryColor,
-        //   ),
-        //   label: 'Add Recipe',
-        // ),
+
         BottomNavigationBarItem(
-          icon: Image.asset('assets/images/ic_country.png', scale: 2.2),
-          activeIcon: Image.asset(
-            'assets/images/ic_country.png',
-            scale: 2.2,
-            color: Theme.of(context).primaryColor,
-          ),
+          icon: Icon(Icons.search, size: 30,),
+          // activeIcon: Image.asset(
+          //   'assets/images/ic_country.png',
+          //   scale: 2.2,
+          //   color: Theme.of(context).primaryColor,
+          // ),
           label: 'Cuisine',
         ),
         BottomNavigationBarItem(
-          icon: Image.asset('assets/images/ic_profile.png', scale: 1.9),
-          activeIcon: Image.asset(
-            'assets/images/ic_profile.png',
-            scale: 1.9,
-            color: Theme.of(context).primaryColor,
-          ),
+          icon: Icon(Icons.person_2_outlined, size: 30,),
+          // activeIcon: Image.asset(
+          //   'assets/images/ic_profile.png',
+          //   scale: 1.9,
+          //   color: Theme.of(context).primaryColor,
+          // ),
           label: 'CookBook',
         ),
       ],
@@ -92,9 +95,9 @@ class _TabsScreenState extends State<TabsScreen> {
   Widget build(BuildContext context) {
     _pages = [
       {'page': HomeScreen()},
+      {'page': RecipeFavoriteScreen()},
       {'page': CategoriesScreen()},
-      // {'page': AddRecipeScreen()},
-      {'page': CuisineScreen()},
+      {'page': SearchScreen()},
       {'page': SettingsScreen()},
     ];
     return Scaffold(

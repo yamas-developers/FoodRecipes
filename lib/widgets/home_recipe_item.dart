@@ -37,7 +37,7 @@ class _HomeRecipeItemState extends State<HomeRecipeItem> {
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
         width: double.infinity,
-        child: Row(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -50,50 +50,54 @@ class _HomeRecipeItemState extends State<HomeRecipeItem> {
   }
 
   _buildRecipeImage() {
-    return Stack(
-      children: [
-        Card(
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          margin: EdgeInsets.only(top: 5),
-          child: ClipRRect(
-            child: CachedNetworkImage(
-              imageUrl: '$recipePath${widget.recipe.image}',
-              placeholder: (context, url) => ShimmerWidget(
-                width: 80,
-                height: 80,
-                circular: false,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Stack(
+        children: [
+          Card(
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            margin: EdgeInsets.only(top: 5),
+            child: ClipRRect(
+              child: CachedNetworkImage(
+                imageUrl: '$recipePath${widget.recipe.image}',
+                placeholder: (context, url) => ShimmerWidget(
+                  width: 150,
+                  height: 150,
+                  circular: false,
+                ),
+                width: MediaQuery.of(context).size.width * 0.38,
+                height: MediaQuery.of(context).size.width * 0.36,
+                // height: 150,
+                fit: BoxFit.cover,
               ),
-              width: 80,
-              height: 80,
-              fit: BoxFit.cover,
             ),
           ),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 10),
-          padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Icon(Icons.history, color: Colors.white, size: 15),
-              Text(
-                getDuration(widget.recipe.duration.toString()),
-                style: TextStyle(
-                  fontSize: 10.5,
-                  color: Colors.white,
-                  fontFamily: 'Brandon',
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+          // Container(
+          //   margin: EdgeInsets.symmetric(horizontal: 10),
+          //   padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+          //   decoration: BoxDecoration(
+          //     color: Theme.of(context).primaryColor,
+          //     borderRadius: BorderRadius.circular(5),
+          //   ),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //     children: [
+          //       Icon(Icons.history, color: Colors.white, size: 15),
+          //       Text(
+          //         getDuration(widget.recipe.duration.toString()),
+          //         style: TextStyle(
+          //           fontSize: 10.5,
+          //           color: Colors.white,
+          //           fontFamily: 'Brandon',
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+        ],
+      ),
     );
   }
 
@@ -106,7 +110,7 @@ class _HomeRecipeItemState extends State<HomeRecipeItem> {
         children: <Widget>[
           _buildDifficulty(),
           _buildRecipeName(),
-          _buildRecipeUserInfo(),
+          // _buildRecipeUserInfo(),
         ],
       ),
     );
