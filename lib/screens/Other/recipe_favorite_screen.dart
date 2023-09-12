@@ -22,6 +22,7 @@ import 'package:food_recipes_app/utils/utils.dart';
 import 'package:food_recipes_app/widgets/shimmer_widget.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -76,14 +77,18 @@ class _RecipeFavoriteScreenState extends State<RecipeFavoriteScreen> {
     _appProvider = Provider.of<AppProvider>(context, listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      _recipeIds = await db.getAllRecipes();
-      if (_recipeIds.isNotEmpty) {
-        _maxPages = (_recipeIds.length / _itemsPerPage).ceil();
-      }
-      _fetchRecipes();
+      getIds();
     });
 
     // _loadAndShowAds();
+  }
+
+  getIds() async {
+    _recipeIds = await db.getAllRecipes();
+    if (_recipeIds.isNotEmpty) {
+      _maxPages = (_recipeIds.length / _itemsPerPage).ceil();
+    }
+    _fetchRecipes();
   }
 
   void dispose() {
@@ -190,7 +195,9 @@ class _RecipeFavoriteScreenState extends State<RecipeFavoriteScreen> {
 
   _fetchRecipes() async {
     List<Recipe>? recipes;
-    recipes = (await ApiRepository.fetchRecipesByIds(_getRecipesIds()));
+    if (_recipeIds.isNotEmpty) {
+      recipes = (await ApiRepository.fetchRecipesByIds(_getRecipesIds()));
+    }
 
     if (mounted)
       setState(() {
@@ -200,12 +207,16 @@ class _RecipeFavoriteScreenState extends State<RecipeFavoriteScreen> {
   }
 
   _onRefresh() async {
+    await getIds();
     List<Recipe>? recipes;
 
     setState(() {
       _isFetching = true;
     });
-    recipes = (await ApiRepository.fetchRecipesByIds(_getRecipesIds()));
+
+    if (_recipeIds.isNotEmpty) {
+      recipes = (await ApiRepository.fetchRecipesByIds(_getRecipesIds()));
+    }
 
     _recipes.clear();
     _recipesPage = 1;
@@ -219,13 +230,22 @@ class _RecipeFavoriteScreenState extends State<RecipeFavoriteScreen> {
   }
 
   _onLoading() async {
+    // if (_recipeIds.isEmpty) {
+    //   setState(() {
+    //     _isFetching = false;
+    //   });
+    //   return;
+    // }
     List<Recipe>? recipes;
-    _recipesPage++;
-    if (_recipesPage > _maxPages) {
-      _refreshController.loadNoData();
-      return;
+
+    if (_recipeIds.isNotEmpty) {
+      _recipesPage++;
+      if (_recipesPage > _maxPages) {
+        _refreshController.loadNoData();
+        return;
+      }
+      recipes = (await ApiRepository.fetchRecipesByIds(_getRecipesIds()));
     }
-    recipes = (await ApiRepository.fetchRecipesByIds(_getRecipesIds()));
     _recipes.addAll(recipes ?? []);
     if (mounted)
       setState(() {

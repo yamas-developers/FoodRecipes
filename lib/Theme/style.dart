@@ -32,10 +32,10 @@ final ThemeData appTheme = ThemeData(
   // unselectedWidgetColor: Colors.grey[300],
   // fontFamily: 'ProductSans',
   // tabBarTheme: TabBarTheme(unselectedLabelColor: primaryColor),
-  // appBarTheme: AppBarTheme(
-  //     backgroundColor: Colors.white,
-  //     elevation: 0,
-  //     iconTheme: IconThemeData(size: 13, color: Colors.black)),
+  appBarTheme: AppBarTheme(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      iconTheme: IconThemeData(color: Colors.black)),
   // scaffoldBackgroundColor: Colors.white,
   // dividerColor: Colors.grey[200],
   // primaryColor: primaryColor,
@@ -71,10 +71,10 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
   // cardColor: Color(0xff5a5341),
   // unselectedWidgetColor: Colors.grey[300],
   // tabBarTheme: TabBarTheme(unselectedLabelColor: primaryColor),
-  // appBarTheme: AppBarTheme(
-  //     backgroundColor: Colors.black,
-  //     elevation: 0,
-  //     iconTheme: IconThemeData(size: 13, color: Colors.white)),
+  appBarTheme: AppBarTheme(
+      backgroundColor: Colors.black,
+      elevation: 0,
+      iconTheme: IconThemeData(color: Colors.white)),
   scaffoldBackgroundColor: Colors.black,
   // dividerColor: Color(0xff242424),
   // primaryColor: primaryColor,
