@@ -11,7 +11,7 @@ import 'package:food_recipes_app/services/api_repository.dart';
 import 'package:food_recipes_app/widgets/home_recipe_item.dart';
 import 'package:food_recipes_app/widgets/shimmer_loading.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 // import 'package:native_admob_flutter/native_admob_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';

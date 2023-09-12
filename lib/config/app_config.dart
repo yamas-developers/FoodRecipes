@@ -29,7 +29,7 @@ class AppConfig {
   static const PerPage = 20;
 
   // set the ads state, set it to false if you want to hide ads
-  static const AdmobEnabled = true;
+  static const AdmobEnabled = false;
 
   // enabled or disabled terms and conditions page in settings
   static const TermsAndConditionsEnabled = true;

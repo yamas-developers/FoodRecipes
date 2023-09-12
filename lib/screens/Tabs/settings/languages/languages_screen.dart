@@ -62,47 +62,54 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
 
   _buildLanguagesList() {
     return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        child: ListView(
-          physics: NeverScrollableScrollPhysics(),
-          children: <Widget>[
-            _buildLanguageListItem(
-              name: tr('english'),
-              image: 'assets/images/flag_us.png',
-              onTap: () {
-                context.setLocale(Locale('en', 'US'));
-                _emptyLists();
-                setState(() {});
-              },
+      child: Consumer<AppProvider>(
+        builder: (context, appPro, _) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: ListView(
+              physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                _buildLanguageListItem(
+                  name: tr('english'),
+                  image: 'assets/images/flag_us.png',
+                  onTap: () {
+                    context.setLocale(Locale('en', 'US'));
+                    appPro.locale = Locale('en', 'US');
+                    _emptyLists();
+                    setState(() {});
+                  },
+                ),
+                _buildLanguageListItem(
+                  name: tr('french'),
+                  image: 'assets/images/flag_fr.png',
+                  onTap: () {
+                    context.setLocale(Locale('fr', 'FR'));
+                    appPro.locale = Locale('fr', 'FR');
+                    _emptyLists();
+                    setState(() {});
+                  },
+                ),
+                _buildLanguageListItem(
+                  name: tr('arabic'),
+                  image: 'assets/images/flag_ar.png',
+                  onTap: () {
+                    context.setLocale(Locale('ar', 'AL'));
+                    appPro.locale = Locale('ar', 'AL');
+                    _emptyLists();
+                  },
+                ),
+                // _buildLanguageListItem(
+                //   name: tr('languagename'),  //language name tanslated in the json files
+                //   image: 'assets/images/icon.png',
+                //   onTap: () {
+                //     context.locale = Locale('code', 'country');
+                //     _emptyLists();
+                //   },
+                // ),
+              ],
             ),
-            _buildLanguageListItem(
-              name: tr('french'),
-              image: 'assets/images/flag_fr.png',
-              onTap: () {
-                context.setLocale(Locale('fr', 'FR'));
-                _emptyLists();
-                setState(() {});
-              },
-            ),
-            _buildLanguageListItem(
-              name: tr('arabic'),
-              image: 'assets/images/flag_ar.png',
-              onTap: () {
-                context.setLocale(Locale('ar', 'AL'));
-                _emptyLists();
-              },
-            ),
-            // _buildLanguageListItem(
-            //   name: tr('languagename'),  //language name tanslated in the json files
-            //   image: 'assets/images/icon.png',
-            //   onTap: () {
-            //     context.locale = Locale('code', 'country');
-            //     _emptyLists();
-            //   },
-            // ),
-          ],
-        ),
+          );
+        }
       ),
     );
   }
