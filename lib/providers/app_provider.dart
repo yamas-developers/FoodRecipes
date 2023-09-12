@@ -57,9 +57,13 @@ class AppProvider extends ChangeNotifier {
 
   getTheme() async {
     bool? isDark = await SessionManager().getTheme();
-    _isDark = (isDark ?? false);
-    ThemeData theme = _isDark ? darkTheme : appTheme;
-    _theme = theme;
+    if (isDark != null) {
+      _isDark = isDark;
+    } else {
+      final Brightness systemBrightness = ui.window.platformBrightness;
+      _isDark = systemBrightness == Brightness.dark;
+    }
+    _theme = _isDark ? darkTheme : appTheme;
     notifyListeners();
   }
 
