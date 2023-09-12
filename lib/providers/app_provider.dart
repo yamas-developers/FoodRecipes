@@ -4,14 +4,17 @@ import 'package:food_recipes_app/models/language.dart';
 import 'package:food_recipes_app/models/settings.dart';
 import 'package:food_recipes_app/services/api_repository.dart';
 import 'package:http/http.dart' as http;
+import 'dart:ui' as ui;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Theme/style.dart';
+import '../config/constants.dart';
 import '../preferences/session_manager.dart';
 
 class AppProvider extends ChangeNotifier {
   AppProvider() {
     getTheme();
+    getlanguage();
   }
 
   Settings? _settings;
@@ -20,6 +23,15 @@ class AppProvider extends ChangeNotifier {
   int _recipeClickCount = 0;
   ThemeData _theme = appTheme;
   bool _isDark = false;
+  Locale _locale = Locale('en', 'US');
+
+  Locale get locale => _locale;
+
+  set locale(Locale value) {
+    _locale = value;
+    SessionManager().saveLanguage(_locale.languageCode);
+    notifyListeners();
+  }
 
   bool get isDark => _isDark;
 
@@ -48,6 +60,27 @@ class AppProvider extends ChangeNotifier {
     _isDark = (isDark ?? false);
     ThemeData theme = _isDark ? darkTheme : appTheme;
     _theme = theme;
+    notifyListeners();
+  }
+
+  getlanguage() async {
+    String? langCode = await SessionManager().getLanguage();
+    print('MK: fetched language: ${langCode}');
+
+    if (langCode != null) {
+      for (final loc in supportedLocales) {
+        if (loc.languageCode == langCode) {
+          _locale = loc;
+          return;
+        }
+      }
+    } else {
+      Locale preferredLocale = ui.window.locale;
+      final loc = supportedLocales.contains(preferredLocale)
+          ? preferredLocale
+          : const Locale('en', 'US');
+      _locale = loc;
+    }
     notifyListeners();
   }
 

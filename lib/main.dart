@@ -12,25 +12,22 @@ import 'package:food_recipes_app/routes.dart';
 import 'package:food_recipes_app/screens/Auth/splash/splash_screen.dart';
 import 'package:food_recipes_app/services/notification_service.dart';
 import 'package:food_recipes_app/theme.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'dart:ui' as ui;
 
+import 'config/constants.dart';
+
 final GlobalKey<NavigatorState> navigatorKey =
     GlobalKey(debugLabel: "Main Navigator");
-List<Locale> supportedLocales = [
-  Locale('en', 'US'),
-  Locale('fr', 'FR'),
-  Locale('ar', 'AL'),
-];
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp();
-  await MobileAds.instance.initialize();
+  // await MobileAds.instance.initialize();
   timeago.setLocaleMessages('fr', timeago.FrMessages());
   timeago.setLocaleMessages('ar', timeago.ArMessages());
   runApp(
@@ -66,10 +63,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // Locale preferredLocale = ui.window.locale;
-    // final locale = supportedLocales.contains(preferredLocale)
-    //     ? preferredLocale
-    //     : context.locale;
     return Consumer<AppProvider>(
       builder: (context, appState, child) {
         SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -101,7 +94,7 @@ class _MyAppState extends State<MyApp> {
             color: Colors.white,
             title: AppConfig.AppName,
             debugShowCheckedModeBanner: false,
-            locale: context.locale,
+            locale: appState.locale,
             supportedLocales: context.supportedLocales,
             localizationsDelegates: context.localizationDelegates,
             theme: appState.theme,

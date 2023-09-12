@@ -78,7 +78,7 @@ dependencies:
   connectivity_plus: ^2.1.0
   const_date_time: ^1.0.0
   progress_dialog_null_safe: ^1.0.7
-  google_mobile_ads: ^2.2.0
+#  google_mobile_ads: ^2.2.0
   flutter_facebook_auth: ^6.0.0
   animation_wrappers: 0.0.4
   animated_text_kit: ^4.2.2
