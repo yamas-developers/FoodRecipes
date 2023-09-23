@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -28,6 +29,7 @@ class ApiRepository {
   static const CATEGORY_IMAGES_PATH = URL + '/uploads/categories/';
   static const CUISINE_IMAGES_PATH = URL + '/uploads/cuisines/';
   static const USER_IMAGES_PATH = URL + '/uploads/users/';
+  static const ITEMS_IMAGES_PATH = URL + '/uploads/items/';
 
   // Settings map action
   static const headers = {'Accept': "application/json"};
@@ -116,10 +118,10 @@ class ApiRepository {
     try {
       http.Response response = await http.get(Uri.parse(API + '/user'),
           headers: {'Authorization': 'Bearer $token'});
-      print(response.body);
+      log(response.body);
       return response;
     } catch (e) {
-      print('trytoken error: $e');
+      log('trytoken error: $e');
       return null;
     }
   }
@@ -457,15 +459,16 @@ class ApiRepository {
           Uri.parse(API +
               '/fetchRecipesByCategory/$lang/$id/${AppConfig.PerPage}?page=$page'),
           headers: headers);
-      print(
-          'request: $API/fetchRecipesByCategory/$lang/$id/${AppConfig.PerPage}?page=$page');
+      // log(
+      //     'MK: request: $API/fetchRecipesByCategory/$lang/$id/${AppConfig.PerPage}?page=$page');
+      // log('MK: $headers ${response.body}');
       if (200 == response.statusCode) {
         return recipePageFromJson(response.body);
       } else {
         return null;
       }
     } catch (e) {
-      print('fetchRecipesByCategory error: $e');
+      log('fetchRecipesByCategory error: $e');
       return null;
     }
   }

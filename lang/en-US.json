@@ -165,5 +165,11 @@
   "favorites": "Favorites",
   "dark_mode": "Dark Mode",
   "please_login_to_be_able_to_add_favorites": "Please login to be able to modify your favorites",
+  "cooking": "Cooking",
+  "rating": "Rating",
+  "no_instructions_available": "No instructions available",
+  "no_ingredients_available": "No ingredients available",
+  "instructions": "Instructions",
+  "ingredients": "Ingredients",
   "": ""
 }

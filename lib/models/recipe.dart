@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:food_recipes_app/models/app_user.dart';
 import 'package:food_recipes_app/models/category.dart';
 import 'package:food_recipes_app/models/difficulty.dart';
+import 'package:food_recipes_app/models/ingredientsItem.dart';
 
 import 'cuisine.dart';
 
@@ -29,37 +30,40 @@ class Recipe {
   final int? noOfViews;
   final int? noOfLikes;
   final int? status;
+  final double? rating;
   final String? createdAt;
   final String? updatedAt;
   final AppUser? user;
   final Difficulty? difficulty;
   final Cuisine? cuisine;
   final List<Category>? categories;
+  final List<IngredientsItem>? ingredientsItem;
 
-  Recipe({
-    this.id,
-    this.languageCode,
-    this.userId,
-    this.name,
-    this.image,
-    this.duration,
-    this.noOfServing,
-    this.difficultyId,
-    this.cuisineId,
-    this.ingredients,
-    this.steps,
-    this.websiteUrl,
-    this.youtubeUrl,
-    this.noOfViews,
-    this.noOfLikes,
-    this.status,
-    this.createdAt,
-    this.updatedAt,
-    this.user,
-    this.difficulty,
-    this.cuisine,
-    this.categories,
-  });
+  Recipe(
+      {this.id,
+      this.languageCode,
+      this.userId,
+      this.name,
+      this.image,
+      this.duration,
+      this.noOfServing,
+      this.difficultyId,
+      this.cuisineId,
+      this.ingredients,
+      this.steps,
+      this.websiteUrl,
+      this.youtubeUrl,
+      this.noOfViews,
+      this.noOfLikes,
+      this.status,
+      this.createdAt,
+      this.updatedAt,
+      this.user,
+      this.difficulty,
+      this.cuisine,
+      this.categories,
+      this.ingredientsItem,
+      this.rating});
 
   Recipe.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
@@ -73,9 +77,11 @@ class Recipe {
         cuisineId = json['cuisine_id'] as int?,
         ingredients = json['ingredients'] as String?,
         steps = json['steps'] as String?,
-        categories = json["categories"] != null
-            ? (json["categories"] as List)
-                .map<Category>((json) => new Category.fromJson(json))
+        categories = json["recipecategories"] != null
+            ? (json["recipecategories"] as List)
+                .where((element) => element['category'] != null)
+                .map<Category>(
+                    (json) => new Category.fromJson(json['category']))
                 .toList()
             : null,
         websiteUrl = json['websiteUrl'] as String?,
@@ -83,6 +89,9 @@ class Recipe {
         noOfViews = json['noOfViews'] as int?,
         noOfLikes = json['noOfLikes'] as int?,
         status = json['status'] as int?,
+        rating = json['average_rating'] == null
+            ? null
+            : double.parse(json['average_rating'].toString()),
         createdAt = json['created_at'] as String?,
         updatedAt = json['updated_at'] as String?,
         user = (json['user'] as Map<String, dynamic>?) != null
@@ -93,6 +102,12 @@ class Recipe {
             : null,
         cuisine = (json['cuisine'] as Map<String, dynamic>?) != null
             ? Cuisine.fromJson(json['cuisine'] as Map<String, dynamic>)
+            : null,
+        ingredientsItem = json["ingredients_item"] != null
+            ? (json["ingredients_item"] as List)
+                .map<IngredientsItem>(
+                    (json) => new IngredientsItem.fromJson(json))
+                .toList()
             : null;
 
   Map<String, dynamic> toJson() => {
@@ -117,5 +132,8 @@ class Recipe {
         'updated_at': updatedAt,
         'user': user?.toJson(),
         'difficulty': difficulty?.toJson(),
+        'ingredients_item': ingredients,
+        'recipecategories': categories,
+        'average_rating': rating,
       };
 }

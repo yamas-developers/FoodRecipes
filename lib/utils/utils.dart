@@ -26,6 +26,14 @@ String getDuration(String value) {
   }
 }
 
+String formatDouble(double value) {
+  if (value == value.truncate()) {
+    return value.toStringAsFixed(0); // Remove decimal part if it's zero
+  } else {
+    return value.toStringAsFixed(2); // Round to 2 decimal places
+  }
+}
+
 bool valdiateURL(String url) {
   bool valid = false;
   if (url.contains('http://') || url.contains('https://'))
@@ -164,7 +172,7 @@ Future showCustomDialogWithTitle(
   );
 }
 
-buildBackButton(context, {EdgeInsetsGeometry? padding, dynamic onTap}) {
+Widget buildBackButton(context, {EdgeInsetsGeometry? padding, dynamic onTap}) {
   return Padding(
     padding: padding ?? const EdgeInsets.fromLTRB(15, 40, 15, 0),
     child: GestureDetector(
@@ -172,8 +180,11 @@ buildBackButton(context, {EdgeInsetsGeometry? padding, dynamic onTap}) {
       child: CircleAvatar(
         radius: 18,
         backgroundColor: Colors.white,
-        child:
-            Icon(Icons.arrow_back_ios_new, /*color: Colors.black,*/ size: 30),
+        child: Padding(
+          padding: const EdgeInsets.only(right: 3),
+          child:
+              Icon(Icons.arrow_back_ios_new, /*color: Colors.black,*/ size: 24),
+        ),
       ),
     ),
   );
