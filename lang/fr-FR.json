@@ -164,5 +164,11 @@
   "account": "Compte",
   "favorites": "Favoris",
   "dark_mode": "Mode sombre",
-  "please_login_to_be_able_to_add_favorites": "Veuillez vous connecter pour pouvoir modifier vos favoris"
+  "please_login_to_be_able_to_add_favorites": "Veuillez vous connecter pour pouvoir modifier vos favoris",
+  "cooking": "Cuisson",
+  "rating": "Évaluation",
+  "no_instructions_available": "Aucune instruction disponible",
+  "no_ingredients_available": "Aucun ingrédient disponible",
+  "instructions": "Instructions",
+  "ingredients": "Ingrédients"
 }

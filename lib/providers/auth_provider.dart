@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -86,10 +87,11 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> tryToken({BuildContext? context, String? token}) async {
+      log('${token}');
     if (token == null) {
       return;
     } else {
-      print(token);
+      log(token);
       http.Response? response = await ApiRepository.tryToken(token: token);
       Map<String, dynamic> data = json.decode(response!.body);
       this._isLoggedIn = true;

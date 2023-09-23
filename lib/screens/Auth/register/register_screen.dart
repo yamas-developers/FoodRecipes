@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:math' as Math;
 
@@ -388,6 +389,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 bool res =
                     await Provider.of<AuthProvider>(context, listen: false)
                         .register(value);
+                // log(res.toString());
+                // log('${value}');
                 if (res) {
                   Navigator.of(context)
                       .pushReplacementNamed(TabsScreen.routeName);

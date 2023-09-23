@@ -164,5 +164,11 @@
   "account": "حساب",
   "favorites": "المفضلة",
   "dark_mode": "الوضع الليلي",
-  "please_login_to_be_able_to_add_favorites": "الرجاء تسجيل الدخول لتتمكن من تعديل مفضلاتك"
+  "please_login_to_be_able_to_add_favorites": "الرجاء تسجيل الدخول لتتمكن من تعديل مفضلاتك",
+  "cooking": "الطهي",
+  "rating": "التقييم",
+  "no_instructions_available": "لا توجد تعليمات متاحة",
+  "no_ingredients_available": "لا توجد مكونات متاحة",
+  "instructions": "تعليمات",
+  "ingredients": "مكونات"
 }
